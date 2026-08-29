@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ECEEE9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0E1520" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Трейдинг">
+<meta name="description" content="Полный учебник трейдинга с нуля: термины, паттерны, индикаторы, стратегии, риск-менеджмент. Термины на английском, объяснения на русском.">
+<title>Тетрадь трейдера — полный курс с нуля</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Golos+Text:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ECEEE9; --paper2:#F5F6F2; --grid:#C7D2DA; --gridbold:#AFC0CC;
+  --ink:#16233B; --ink2:#4A5A72; --ink3:#7C8A9C;
+  --red:#C8412F; --green:#1F7A5C; --amber:#B0791F; --blue:#2C5D93;
+  --line:#C3CBC6; --shadow:rgba(22,35,59,.10);
+  --cell:26px;
+  --nav-w:296px;
+  --f-disp:'Oswald',Impact,'Haettenschweiler',sans-serif;
+  --f-body:'Golos Text',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+}
+html[data-theme="night"]{
+  --paper:#0E1520; --paper2:#141E2C; --grid:#1D2A3B; --gridbold:#26374C;
+  --ink:#DDE7F1; --ink2:#9BADC2; --ink3:#6C8098;
+  --red:#FF6B57; --green:#4FD3A0; --amber:#E0B155; --blue:#7FB3E8;
+  --line:#25344700; --line:#253347; --shadow:rgba(0,0,0,.4);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{
+  margin:0;background-color:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:16.5px;line-height:1.62;
+  background-image:
+    linear-gradient(var(--grid) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:var(--cell) var(--cell),var(--cell) var(--cell);
+  background-position:-1px -1px;
+  overflow-x:hidden;
+}
+a{color:var(--blue);text-decoration-thickness:1px;text-underline-offset:2px}
+
+/* ---------- topbar ---------- */
+.top{
+  position:sticky;top:0;z-index:60;
+  background:var(--paper);
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  -webkit-backdrop-filter:saturate(180%) blur(14px);backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top);
+}
+.top-in{display:flex;align-items:center;gap:12px;height:56px;padding:0 14px;max-width:1500px;margin:0 auto}
+.brand{font-family:var(--f-disp);font-weight:500;letter-spacing:.16em;text-transform:uppercase;font-size:15px;white-space:nowrap;display:flex;align-items:baseline;gap:9px}
+.brand b{color:var(--red);font-weight:600}
+.brand span{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:var(--ink3)}
+.top .sp{flex:1}
+.iconbtn{
+  border:1px solid var(--line);background:var(--paper2);color:var(--ink);
+  width:38px;height:38px;border-radius:10px;display:grid;place-items:center;cursor:pointer;
+  font-family:var(--f-mono);font-size:14px;padding:0;flex:none;
+}
+.iconbtn:active{transform:scale(.94)}
+.iconbtn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible{outline:2.5px solid var(--red);outline-offset:2px}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;background:var(--red);width:0}
+
+/* ---------- search ---------- */
+.searchwrap{display:flex;align-items:center;gap:8px;flex:1;max-width:420px}
+.search{
+  width:100%;font-family:var(--f-mono);font-size:14px;color:var(--ink);
+  background:var(--paper2);border:1px solid var(--line);border-radius:10px;
+  padding:9px 12px;min-width:0;
+}
+.search::placeholder{color:var(--ink3)}
+.hits{font-family:var(--f-mono);font-size:11px;color:var(--ink3);white-space:nowrap}
+
+/* ---------- layout ---------- */
+.wrap{display:flex;gap:36px;max-width:1500px;margin:0 auto;padding:0 18px 120px;align-items:flex-start}
+nav.toc{
+  width:var(--nav-w);flex:none;position:sticky;top:74px;max-height:calc(100vh - 96px);
+  overflow-y:auto;-webkit-overflow-scrolling:touch;padding:22px 0 40px;
+}
+.toc h4{font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin:0 0 10px 4px;font-weight:500}
+.toc a{
+  display:flex;gap:10px;align-items:baseline;padding:7px 10px;border-radius:8px;
+  color:var(--ink2);text-decoration:none;font-size:14.5px;line-height:1.35;
+}
+.toc a i{font-family:var(--f-mono);font-style:normal;font-size:11px;color:var(--ink3);flex:none;padding-top:2px}
+.toc a:hover{background:var(--paper2);color:var(--ink)}
+.toc a.on{background:var(--paper2);color:var(--ink);box-shadow:inset 3px 0 0 var(--red)}
+.toc a.on i{color:var(--red)}
+main{flex:1;min-width:0;padding-top:22px}
+
+/* ---------- hero ---------- */
+.hero{padding:26px 0 34px;border-bottom:2px solid var(--ink);margin-bottom:8px}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+.hero h1{
+  font-family:var(--f-disp);font-weight:600;text-transform:uppercase;letter-spacing:.005em;
+  font-size:clamp(38px,8.2vw,86px);line-height:.92;margin:12px 0 0;
+}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p.lead{font-size:17px;color:var(--ink2);max-width:60ch;margin:18px 0 0}
+.herofacts{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.fact{font-family:var(--f-mono);font-size:11.5px;border:1px solid var(--line);background:var(--paper2);border-radius:999px;padding:6px 12px;color:var(--ink2)}
+.fact b{color:var(--ink)}
+
+/* ---------- sections ---------- */
+.sec{padding:44px 0 8px;scroll-margin-top:76px}
+.sec-h{display:flex;gap:14px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:22px}
+.sec-n{font-family:var(--f-disp);font-size:44px;line-height:.8;color:var(--red);font-weight:600;flex:none;letter-spacing:-.02em}
+.sec-h h2{font-family:var(--f-disp);font-weight:500;text-transform:uppercase;letter-spacing:.03em;font-size:clamp(21px,4.4vw,30px);margin:0;line-height:1.05}
+.sec-h p{margin:5px 0 0;font-size:14px;color:var(--ink2)}
+.sec h3{
+  font-family:var(--f-disp);font-weight:500;text-transform:uppercase;letter-spacing:.09em;
+  font-size:15px;margin:34px 0 12px;color:var(--ink);
+}
+.sec h3::before{content:"";display:inline-block;width:16px;height:2px;background:var(--red);vertical-align:middle;margin-right:9px;transform:translateY(-2px)}
+.sec p{margin:0 0 14px;max-width:78ch}
+.sec > ul,.sec > ol{max-width:78ch;padding-left:20px;margin:0 0 16px}
+.sec li{margin-bottom:7px}
+mark{background:rgba(176,121,31,.35);background:linear-gradient(transparent 58%,color-mix(in srgb,var(--amber) 42%,transparent) 0);color:inherit;padding:0 1px}
+.en{font-family:var(--f-mono);font-size:.92em;color:var(--ink);border-bottom:1.5px solid var(--red);padding-bottom:1px;white-space:nowrap}
+b,strong{font-weight:600}
+
+/* ---------- cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-bottom:8px}
+.card{
+  background:var(--paper2);border:1px solid var(--line);border-radius:14px;padding:16px 17px;
+  box-shadow:0 1px 0 var(--shadow);
+}
+.card .t{font-family:var(--f-mono);font-weight:700;font-size:15px;letter-spacing:-.01em;margin-bottom:2px;display:block}
+.card .ru{font-size:12.5px;color:var(--red);font-weight:600;letter-spacing:.02em;text-transform:uppercase;margin-bottom:8px;display:block;font-family:var(--f-disp)}
+.card .d{font-size:14.7px;color:var(--ink2);margin:0}
+.card .d + .d{margin-top:9px}
+.card .ex{
+  margin-top:11px;padding-top:10px;border-top:1px dashed var(--line);
+  font-size:13.5px;color:var(--ink2);
+}
+.card .ex b{color:var(--ink);font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:3px;color:var(--ink3)}
+
+/* strategy card */
+.strat{background:var(--paper2);border:1px solid var(--line);border-left:4px solid var(--red);border-radius:14px;padding:18px;margin-bottom:16px}
+.strat .sh{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:4px}
+.strat .sh .t{font-family:var(--f-mono);font-weight:700;font-size:17px}
+.strat .sh .ru{font-family:var(--f-disp);text-transform:uppercase;letter-spacing:.05em;color:var(--red);font-size:13px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 14px}
+.tag{font-family:var(--f-mono);font-size:11px;padding:4px 9px;border-radius:6px;background:var(--paper);border:1px solid var(--line);color:var(--ink2)}
+.rows{display:grid;gap:9px}
+.row{display:grid;grid-template-columns:88px 1fr;gap:12px;align-items:start;font-size:14.6px}
+.row .k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);padding-top:4px}
+.row .v{color:var(--ink2)}
+.row .v b{color:var(--ink)}
+.steps{counter-reset:s;padding:0;margin:0;list-style:none}
+.steps li{counter-increment:s;position:relative;padding-left:28px;margin-bottom:6px;color:var(--ink2)}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;font-family:var(--f-mono);font-size:11px;color:var(--red);border:1px solid var(--red);border-radius:5px;width:19px;height:19px;display:grid;place-items:center;font-weight:700}
+.pm{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.pm div{font-size:13.8px}
+.pm h5{margin:0 0 5px;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.pm ul{margin:0;padding-left:16px;color:var(--ink2)}
+.pm li{margin-bottom:4px}
+.pm .plus h5{color:var(--green)}
+.pm .minus h5{color:var(--red)}
+@media (max-width:600px){.pm{grid-template-columns:1fr}}
+
+/* callouts */
+.note{border-left:3px solid var(--amber);background:rgba(176,121,31,.09);background:color-mix(in srgb,var(--amber) 9%,transparent);padding:13px 15px;border-radius:0 10px 10px 0;margin:16px 0;font-size:14.8px}
+.note.warn{border-color:var(--red);background:rgba(200,65,47,.09);background:color-mix(in srgb,var(--red) 9%,transparent)}
+.note.ok{border-color:var(--green);background:rgba(31,122,92,.09);background:color-mix(in srgb,var(--green) 9%,transparent)}
+.note h5{margin:0 0 5px;font-family:var(--f-disp);text-transform:uppercase;letter-spacing:.08em;font-size:12.5px}
+.note p{margin:0;color:var(--ink2)}
+.note p+p{margin-top:8px}
+
+/* table */
+.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 18px;border:1px solid var(--line);border-radius:12px;background:var(--paper2)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:440px}
+th,td{padding:10px 13px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:500;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td b{font-family:var(--f-mono);font-size:13px}
+
+/* chart figure */
+figure.ch{margin:0 0 18px;border:1px solid var(--line);border-radius:14px;background:var(--paper2);overflow:hidden}
+figure.ch svg{display:block;width:100%;height:auto}
+figure.ch figcaption{font-size:13.4px;color:var(--ink2);padding:11px 15px;border-top:1px solid var(--line)}
+figure.ch figcaption b{font-family:var(--f-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);display:block;margin-bottom:3px}
+
+/* glossary */
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.gl .g{background:var(--paper2);border:1px solid var(--line);border-radius:10px;padding:11px 13px}
+.gl .g b{font-family:var(--f-mono);font-size:13.5px;display:block}
+.gl .g i{font-style:normal;font-size:12px;color:var(--red);display:block;margin-bottom:4px}
+.gl .g span{font-size:14px;color:var(--ink2)}
+.abc{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
+.abc button{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);background:var(--paper2);color:var(--ink2);border-radius:7px;width:30px;height:30px;cursor:pointer}
+.abc button.on{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* checklist */
+.check{list-style:none;padding:0;margin:0 0 16px;max-width:78ch}
+.check li{position:relative;padding-left:30px;margin-bottom:8px;color:var(--ink2)}
+.check li::before{content:"";position:absolute;left:0;top:4px;width:16px;height:16px;border:1.5px solid var(--ink3);border-radius:4px}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,16,26,.45);z-index:70;opacity:0;pointer-events:none;transition:opacity .22s}
+.scrim.on{opacity:1;pointer-events:auto}
+.empty{display:none;padding:30px 0;color:var(--ink3);font-family:var(--f-mono);font-size:13px}
+.hidden{display:none!important}
+
+/* footer */
+footer{max-width:1500px;margin:0 auto;padding:40px 18px calc(60px + env(safe-area-inset-bottom));border-top:1px solid var(--line);color:var(--ink3);font-size:13px}
+footer b{font-family:var(--f-mono);color:var(--ink2)}
+
+.up{
+  position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:50;
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--paper2);
+  color:var(--ink);cursor:pointer;font-size:17px;box-shadow:0 6px 18px var(--shadow);display:none;
+}
+.up.on{display:block}
+
+@media (max-width:1000px){
+  :root{--cell:22px}
+  .wrap{padding:0 15px 90px}
+  nav.toc{
+    position:fixed;z-index:80;top:0;left:0;bottom:0;width:min(84vw,320px);
+    background:var(--paper2);border-right:1px solid var(--line);max-height:none;
+    padding:calc(18px + env(safe-area-inset-top)) 12px 30px;
+    transform:translateX(-102%);transition:transform .24s cubic-bezier(.3,.8,.3,1);
+    box-shadow:0 0 40px var(--shadow);
+  }
+  nav.toc.open{transform:none}
+  main{padding-top:6px}
+  body{font-size:16px}
+  .row{grid-template-columns:1fr;gap:2px}
+  .row .k{padding-top:0}
+}
+@media (min-width:1001px){.scrim,.menubtn{display:none!important}}
+@media print{nav.toc,.top,.up{display:none}body{background:#fff}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <button class="iconbtn menubtn" id="menu" aria-label="Оглавление">☰</button>
+    <div class="brand">ТЕТРАДЬ<b>·</b>ТРЕЙДЕРА <span>RU/EN</span></div>
+    <div class="sp"></div>
+    <div class="searchwrap">
+      <input class="search" id="q" type="search" placeholder="Поиск: risk, свеча, RSI…" autocomplete="off" autocorrect="off" spellcheck="false" aria-label="Поиск по учебнику">
+      <span class="hits" id="hits"></span>
+    </div>
+    <button class="iconbtn" id="theme" aria-label="Тема">◐</button>
+  </div>
+  <div class="progress" id="prog"></div>
+</header>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="wrap">
+  <nav class="toc" id="toc" aria-label="Оглавление"><h4>Оглавление</h4><div id="tocl"></div></nav>
+  <main id="main">
+    <section class="hero">
+      <div class="eyebrow">Курс с нуля · 14 разделов · термины EN, объяснения RU</div>
+      <h1>Трейдинг<br>от <em>первой свечи</em><br>до системы</h1>
+      <p class="lead">Полный учебник в одной странице: каждый термин на английском с переводом и объяснением, каждая стратегия — пошагово, с точкой входа, стопом, целью и схемой на графике. Все графики нарисованы прямо в браузере, поэтому они чёткие на Retina и работают без интернета.</p>
+      <div class="herofacts" id="facts"></div>
+    </section>
+    <div id="content"></div>
+    <div class="empty" id="empty">Ничего не найдено. Попробуй другое слово — например «stop», «тренд», «RSI».</div>
+  </main>
+</div>
+
+<footer>
+  <p><b>Как обновлять.</b> Файл самодостаточный: залей его как <b>index.html</b> в репозиторий на GitHub — и страница обновится. На iPhone и iPad: «Поделиться» → «На экран «Домой»», откроется без адресной строки.</p>
+  <p>Материал учебный. Ничто здесь не является инвестиционной рекомендацией. Торговля с плечом ведёт к потере депозита у большинства новичков — сначала демо-счёт и журнал сделок, потом деньги.</p>
+</footer>
+
+<button class="up" id="up" aria-label="Наверх">↑</button>
+
+<script>
+/* ============ ГЕНЕРАТОР ГРАФИКОВ ============ */
+function R(seed){let s=seed*2654435761%2147483647;return function(){s=(s*1103515245+12345)%2147483647;return s/2147483647;}}
+function path2closes(path,n,vol,seed){
+  var r=R(seed),out=[],segs=path.length-1;
+  for(var i=0;i<n;i++){
+    var t=i/(n-1)*segs,k=Math.min(segs-1,Math.floor(t)),f=t-k;
+    var base=path[k]+(path[k+1]-path[k])*f;
+    out.push(base+(r()-0.5)*vol);
+  }
+  return out;
+}
+function mkCandles(path,n,vol,seed){
+  var cl=path2closes(path,n+1,vol,seed),r=R(seed+91),a=[];
+  for(var i=0;i<n;i++){
+    var o=cl[i],c=cl[i+1],w=vol*0.75;
+    a.push({o:o,c:c,h:Math.max(o,c)+r()*w,l:Math.min(o,c)-r()*w});
+  }
+  return a;
+}
+function ema(vals,p){var k=2/(p+1),out=[],e=vals[0];for(var i=0;i<vals.length;i++){e=vals[i]*k+e*(1-k);out.push(e);}return out;}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+/* spec: {path:[..0-100..], n, vol, seed, ann:[...], ema:[p,p], vol_:true} */
+function chartSVG(spec){
+  var W=680,H=spec.h||330,PL=8,PR=88,PT=16,PB=spec.vol_?54:20;
+  var n=spec.n||46,vol=spec.vol||3.2,seed=spec.seed||7;
+  var cs=mkCandles(spec.path,n,vol,seed);
+  var lo=1e9,hi=-1e9,i;
+  for(i=0;i<n;i++){lo=Math.min(lo,cs[i].l);hi=Math.max(hi,cs[i].h);}
+  var ann=spec.ann||[];
+  for(i=0;i<ann.length;i++){var a=ann[i];
+    ['p','p1','p2'].forEach(function(k){if(typeof a[k]==='number'){lo=Math.min(lo,a[k]);hi=Math.max(hi,a[k]);}});
+  }
+  var pad=(hi-lo)*0.10;lo-=pad;hi+=pad;
+  var cw=(W-PL-PR)/n;
+  function X(idx){return PL+cw*(idx+0.5);}
+  function Y(p){return PT+(H-PT-PB)*(1-(p-lo)/(hi-lo));}
+  var s='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+esc(spec.cap||'график')+'">';
+  s+='<defs><marker id="ar'+seed+'" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" style="fill:var(--red)"/></marker></defs>';
+  /* сетка */
+  for(i=0;i<=4;i++){var yy=PT+(H-PT-PB)*i/4;
+    s+='<line x1="'+PL+'" y1="'+yy.toFixed(1)+'" x2="'+(W-PR+6)+'" y2="'+yy.toFixed(1)+'" style="stroke:var(--grid)" stroke-width="1"/>';}
+  /* зоны и линии под свечами */
+  ann.forEach(function(a){
+    if(a.t==='zone'){var y1=Y(Math.max(a.p1,a.p2)),y2=Y(Math.min(a.p1,a.p2));
+      var col=a.k==='sup'?'var(--green)':a.k==='res'?'var(--red)':'var(--blue)';
+      s+='<rect x="'+PL+'" y="'+y1.toFixed(1)+'" width="'+(W-PR-PL+6)+'" height="'+Math.max(3,(y2-y1)).toFixed(1)+'" style="fill:'+col+';opacity:.13"/>';
+      s+='<rect x="'+PL+'" y="'+y1.toFixed(1)+'" width="'+(W-PR-PL+6)+'" height="'+Math.max(3,(y2-y1)).toFixed(1)+'" style="fill:none;stroke:'+col+';opacity:.5" stroke-width="1"/>';
+      if(a.l)s+='<text x="'+(W-PR+10)+'" y="'+((y1+y2)/2+4).toFixed(1)+'" style="fill:'+col+';font-family:\'JetBrains Mono\',ui-monospace,monospace" font-size="11">'+esc(a.l)+'</text>';}
+    if(a.t==='box'){var bx1=X(a.x1)-cw/2,bx2=X(a.x2)+cw/2,by1=Y(Math.max(a.p1,a.p2)),by2=Y(Math.min(a.p1,a.p2));
+      s+='<rect x="'+bx1.toFixed(1)+'" y="'+by1.toFixed(1)+'" width="'+(bx2-bx1).toFixed(1)+'" height="'+(by2-by1).toFixed(1)+'" style="fill:var(--amber);opacity:.12;stroke:var(--amber)" stroke-width="1.2" stroke-dasharray="4 3"/>';
+      if(a.l)s+='<text x="'+(bx1+4).toFixed(1)+'" y="'+(by1-5).toFixed(1)+'" style="fill:var(--amber);font-family:\'JetBrains Mono\',ui-monospace,monospace" font-size="11">'+esc(a.l)+'</text>';}
+  });
+  /* свечи */
+  for(i=0;i<n;i++){
+    var c=cs[i],up=c.c>=c.o,col=up?'var(--green)':'var(--red)',x=X(i);
+    s+='<line x1="'+x.toFixed(1)+'" y1="'+Y(c.h).toFixed(1)+'" x2="'+x.toFixed(1)+'" y2="'+Y(c.l).toFixed(1)+'" style="stroke:'+col+'" stroke-width="1.1"/>';
+    var yo=Y(c.o),yc=Y(c.c),bh=Math.max(1.4,Math.abs(yc-yo));
+    s+='<rect x="'+(x-cw*0.32).toFixed(1)+'" y="'+Math.min(yo,yc).toFixed(1)+'" width="'+(cw*0.64).toFixed(1)+'" height="'+bh.toFixed(1)+'" style="fill:'+(up?'none':col)+';stroke:'+col+'" stroke-width="1.1"/>';
+  }
+  /* объём */
+  if(spec.vol_){var vr=R(seed+13);
+    for(i=0;i<n;i++){var hgt=6+vr()*26+Math.abs(cs[i].c-cs[i].o)*2.2;
+      s+='<rect x="'+(X(i)-cw*0.32).toFixed(1)+'" y="'+(H-8-hgt).toFixed(1)+'" width="'+(cw*0.64).toFixed(1)+'" height="'+hgt.toFixed(1)+'" style="fill:'+(cs[i].c>=cs[i].o?'var(--green)':'var(--red)')+';opacity:.35"/>';}
+    s+='<text x="'+PL+'" y="'+(H-40)+'" style="fill:var(--ink3);font-family:\'JetBrains Mono\',ui-monospace,monospace" font-size="10">VOLUME</text>';}
+  /* скользящие */
+  (spec.ema||[]).forEach(function(p,idx){
+    var closes=cs.map(function(c){return c.c;}),e=ema(closes,p),d='';
+    for(i=0;i<n;i++)d+=(i?'L':'M')+X(i).toFixed(1)+' '+Y(e[i]).toFixed(1)+' ';
+    s+='<path d="'+d+'" style="fill:none;stroke:'+(idx?'var(--amber)':'var(--blue)')+';opacity:.9" stroke-width="1.6"/>';
+    s+='<text x="'+(W-PR+10)+'" y="'+(Y(e[n-1])+4).toFixed(1)+'" style="fill:'+(idx?'var(--amber)':'var(--blue)')+';font-family:\'JetBrains Mono\',ui-monospace,monospace" font-size="10">EMA'+p+'</text>';
+  });
+  /* аннотации поверх */
+  ann.forEach(function(a){
+    var col=a.c==='g'?'var(--green)':a.c==='b'?'var(--blue)':a.c==='k'?'var(--ink2)':'var(--red)';
+    if(a.t==='h'){var y=Y(a.p);
+      s+='<line x1="'+PL+'" y1="'+y.toFixed(1)+'" x2="'+(W-PR+4)+'" y2="'+y.toFixed(1)+'" style="stroke:'+col+'" stroke-width="1.4" stroke-dasharray="'+(a.solid?'0':'6 4')+'"/>';
+      if(a.l)s+='<text x="'+(W-PR+10)+'" y="'+(y+4).toFixed(1)+'" style="fill:'+col+';font-family:\'JetBrains Mono\',ui-monospace,monospace" font-size="11">'+esc(a.l)+'</text>';}
+    if(a.t==='ln'){
+      s+='<line x1="'+X(a.x1).toFixed(1)+'" y1="'+Y(a.p1).toFixed(1)+'" x2="'+X(a.x2).toFixed(1)+'" y2="'+Y(a.p2).toFixed(1)+'" style="stroke:'+col+'" stroke-width="1.6" stroke-dasharray="'+(a.dash?'6 4':'0')+'"/>';
+      if(a.l)s+='<text x="'+(X(a.x2)-4).toFixed(1)+'" y="'+(Y(a.p2)-7).toFixed(1)+'" style="fill:'+col+';font-family:\'JetBrains Mono\',ui-monospace,monospace" font-size="11" text-anchor="end">'+esc(a.l)+'</text>';}
+    if(a.t==='m'){var mx=X(a.x),my=Y(a.p),d=a.d==='dn'?-1:1;
+      s+='<line x1="'+mx.toFixed(1)+'" y1="'+(my+34*d).toFixed(1)+'" x2="'+mx.toFixed(1)+'" y2="'+(my+9*d).toFixed(1)+'" style="stroke:'+col+'" stroke-width="1.6" marker-end="url(#ar'+seed+')"/>';
+      if(a.l)s+='<text x="'+mx.toFixed(1)+'" y="'+(my+(d>0?49:-40)).toFixed(1)+'" style="fill:'+col+';font-family:\'JetBrains Mono\',ui-monospace,monospace" font-size="11" text-anchor="middle">'+esc(a.l)+'</text>';}
+    if(a.t==='txt')
+      s+='<text x="'+X(a.x).toFixed(1)+'" y="'+Y(a.p).toFixed(1)+'" style="fill:'+col+';font-family:\'JetBrains Mono\',ui-monospace,monospace" font-size="11" text-anchor="'+(a.al||'middle')+'">'+esc(a.l)+'</text>';
+  });
+  s+='</svg>';
+  return s;
+}
+
+/* ============ РЕНДЕР БЛОКОВ ============ */
+function bTerms(items){
+  var h='<div class="grid">';
+  items.forEach(function(t){
+    h+='<div class="card" data-s="'+esc((t[0]+' '+t[1]+' '+t[2]+' '+(t[3]||'')).toLowerCase())+'">';
+    h+='<span class="t">'+esc(t[0])+'</span><span class="ru">'+esc(t[1])+'</span><p class="d">'+t[2]+'</p>';
+    if(t[3])h+='<div class="ex"><b>Пример</b>'+t[3]+'</div>';
+    h+='</div>';
+  });
+  return h+'</div>';
+}
+function bStrat(s){
+  var h='<div class="strat" data-s="'+esc((s.en+' '+s.ru+' '+s.idea).toLowerCase())+'">';
+  h+='<div class="sh"><span class="t">'+esc(s.en)+'</span><span class="ru">'+esc(s.ru)+'</span></div>';
+  h+='<div class="tags">'+s.tags.map(function(t){return '<span class="tag">'+esc(t)+'</span>';}).join('')+'</div>';
+  h+='<div class="rows">';
+  h+='<div class="row"><div class="k">Идея</div><div class="v">'+s.idea+'</div></div>';
+  h+='<div class="row"><div class="k">Пошагово</div><div class="v"><ol class="steps">'+s.steps.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ol></div></div>';
+  h+='<div class="row"><div class="k">Вход</div><div class="v">'+s.entry+'</div></div>';
+  h+='<div class="row"><div class="k">Стоп</div><div class="v">'+s.stop+'</div></div>';
+  h+='<div class="row"><div class="k">Цель</div><div class="v">'+s.take+'</div></div>';
+  h+='</div>';
+  if(s.chart)h+='<figure class="ch" style="margin-top:14px">'+chartSVG(s.chart)+'<figcaption><b>Схема сделки</b>'+s.chart.cap+'</figcaption></figure>';
+  h+='<div class="pm"><div class="plus"><h5>Сильные стороны</h5><ul>'+s.pros.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>';
+  h+='<div class="minus"><h5>Слабые стороны и ошибки</h5><ul>'+s.cons.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div></div>';
+  return h+'</div>';
+}
+function bTable(t){
+  var h='<div class="tblwrap" data-s="'+esc(JSON.stringify(t).toLowerCase())+'"><table><thead><tr>';
+  t.head.forEach(function(c){h+='<th>'+c+'</th>';});
+  h+='</tr></thead><tbody>';
+  t.rows.forEach(function(r){h+='<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';});
+  return h+'</tbody></table></div>';
+}
+function bGloss(items){
+  var h='<div class="gl">';
+  items.forEach(function(g){
+    h+='<div class="g" data-a="'+esc(g[0][0].toUpperCase())+'" data-s="'+esc((g[0]+' '+g[1]+' '+g[2]).toLowerCase())+'"><b>'+esc(g[0])+'</b><i>'+esc(g[1])+'</i><span>'+g[2]+'</span></div>';
+  });
+  return h+'</div>';
+}
+function renderBlock(b){
+  switch(b.t){
+    case 'p':return '<p data-s="'+esc(b.v.replace(/<[^>]+>/g,'').toLowerCase())+'">'+b.v+'</p>';
+    case 'h':return '<h3 data-keep="1">'+esc(b.v)+'</h3>';
+    case 'ul':return '<ul data-s="'+esc(b.v.join(' ').replace(/<[^>]+>/g,'').toLowerCase())+'">'+b.v.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+    case 'ol':return '<ol data-s="'+esc(b.v.join(' ').replace(/<[^>]+>/g,'').toLowerCase())+'">'+b.v.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ol>';
+    case 'check':return '<ul class="check" data-s="'+esc(b.v.join(' ').toLowerCase())+'">'+b.v.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+    case 'note':return '<div class="note '+(b.k||'')+'" data-s="'+esc((b.h+' '+b.v).replace(/<[^>]+>/g,'').toLowerCase())+'"><h5>'+esc(b.h)+'</h5><p>'+b.v+'</p></div>';
+    case 'terms':return bTerms(b.v);
+    case 'strat':return b.v.map(bStrat).join('');
+    case 'table':return bTable(b.v);
+    case 'gloss':return bGloss(b.v);
+    case 'abc':return '<div class="abc" id="abc" data-keep="1"></div>';
+    case 'chart':return '<figure class="ch" data-s="'+esc(b.v.cap.toLowerCase())+'">'+chartSVG(b.v)+'<figcaption><b>'+esc(b.v.ttl||'График')+'</b>'+b.v.cap+'</figcaption></figure>';
+  }
+  return '';
+}
+/* ============ КОНТЕНТ ============ */
+var SECTIONS=[];
+
+SECTIONS.push({id:'start',n:'01',ttl:'С чего начать',sub:'Карта курса и правила игры',b:[
+{t:'p',v:'Этот учебник устроен так: <b>термин всегда даётся на английском</b> — потому что все терминалы, брокеры и графики говорят по-английски, — а объяснение и примеры на русском. Читай подряд от раздела 02 к 14, а потом возвращайся точечно через поиск наверху.'},
+{t:'p',v:'Ты научишься трём вещам, и в этом порядке они и работают: <b>читать график</b> (что происходит), <b>принимать решение по правилам</b> (стратегия), <b>не потерять счёт</b> (риск-менеджмент). Новички делают наоборот: сначала ищут стратегию, потом рискуют всем, а читать график так и не учатся.'},
+{t:'note',k:'warn',h:'Честная статистика',v:'У большинства розничных брокеров публично раскрыто: <b>от 65% до 82% розничных счетов теряют деньги</b> на CFD и марже. Это не значит, что рынок нечестный — это значит, что без правил и учёта риска результат отрицательный почти наверняка. Первые 2–3 месяца торгуй только на демо и веди журнал.'},
+{t:'h',v:'Маршрут обучения'},
+{t:'table',v:{head:['Этап','Что делаешь','Сколько'],rows:[
+['1. База','Разделы 02–04: рынки, ордера, свечи. Открываешь TradingView, просто смотришь график и называешь вслух, что видишь.','1 неделя'],
+['2. Чтение графика','Разделы 05–07: свечные и графические паттерны, структура рынка. Отмечаешь уровни на 30 графиках руками.','2 недели'],
+['3. Инструменты','Раздел 08: индикаторы. Выбираешь максимум 2–3 и больше не трогаешь остальные.','1 неделя'],
+['4. Система','Разделы 09–10: выбираешь <b>одну</b> стратегию и считаешь риск на сделку.','2 недели'],
+['5. Проверка','Разделы 13: 100 сделок на демо с журналом. Только после этого — реальные деньги, минимальный размер.','1–2 месяца']]}},
+{t:'h',v:'Базовые слова, без которых дальше нельзя'},
+{t:'terms',v:[
+['Trade / Position','Сделка / позиция','Одна операция: ты купил или продал инструмент и держишь результат открытым, пока не закроешь. Открытая сделка = position.','Купил 0.1 лота EURUSD по 1.0850 — это открытая длинная позиция.'],
+['Long (Buy)','Лонг, покупка','Ставка на рост. Покупаешь дешевле, продаёшь дороже. Прибыль = (цена выхода − цена входа) × объём.','Купил акцию за $100, продал за $115 → +$15 на акцию.'],
+['Short (Sell)','Шорт, продажа','Ставка на падение. Ты занимаешь актив у брокера, продаёшь дорого, откупаешь дёшево и возвращаешь. Прибыль = (цена входа − цена выхода) × объём.','Продал по $100, откупил по $85 → +$15. Если цена ушла на $130 — минус $30.'],
+['Bid / Ask','Бид / аск','Bid — лучшая цена, по которой у тебя купят (ты продаёшь по ней). Ask (offer) — лучшая цена, по которой тебе продадут (ты покупаешь по ней). Ask всегда выше Bid.','Bid 1.0849 / Ask 1.0851. Покупаешь по 1.0851, продаёшь по 1.0849.'],
+['Spread','Спред','Разница Ask − Bid. Это твоя мгновенная плата за вход: сразу после открытия сделка в минусе на размер спреда.','Спред 2 пункта на EURUSD при 1 лоте ≈ $20 убытка в момент входа.'],
+['Volatility','Волатильность','Размах движений цены. Высокая волатильность = большие свечи, больше шанса и на прибыль, и на выбитый стоп. Измеряется чаще всего через <span class="en">ATR</span>.','ATR(14) = 80 пунктов означает, что средний дневной размах — 80 пунктов.'],
+['Liquidity','Ликвидность','Сколько объёма можно купить или продать, не сдвинув цену. У EURUSD или Apple ликвидность огромная, у мелкой альткоины — почти нет.','На неликвидном рынке заявка на $50 000 может подвинуть цену на 3%.'],
+['Timeframe (TF)','Таймфрейм','Период, который упаковывается в одну свечу: M1, M5, M15, H1, H4, D1, W1, MN.','На H1 одна свеча = один час торгов.'],
+['Instrument / Ticker','Инструмент, тикер','Короткий код актива: <span class="en">AAPL</span> — Apple, <span class="en">EURUSD</span> — евро к доллару, <span class="en">BTCUSDT</span> — биткоин к USDT.','Тикер XAUUSD — это золото к доллару.'],
+['P&amp;L (Profit and Loss)','Финансовый результат','Прибыль или убыток. Unrealized P&amp;L — по открытой позиции (плавающий), Realized — зафиксированный после закрытия.','Плавающий плюс +$300 становится реальным только когда ты закрыл сделку.']
+]}
+]});
+
+SECTIONS.push({id:'markets',n:'02',ttl:'Рынки и участники',sub:'Где вообще происходит торговля',b:[
+{t:'p',v:'Рынок — это место встречи покупателей и продавцов. Цена — не «справедливая стоимость», а <b>последняя сделка, о которой договорились двое</b>. Она двигается, потому что одна из сторон готова платить дороже (или отдавать дешевле), чтобы её заявку исполнили немедленно.'},
+{t:'h',v:'Типы рынков'},
+{t:'terms',v:[
+['Stock market (Equities)','Фондовый рынок','Торговля акциями компаний. Акция — доля в бизнесе. Работает по расписанию биржи, есть дивиденды и отчётности.','NYSE и NASDAQ: 09:30–16:00 по Нью-Йорку.'],
+['Forex (FX)','Валютный рынок','Обмен валют парами. Крупнейший рынок мира, работает 24/5 без единой биржи (внебиржевой, OTC).','EURUSD, GBPJPY, USDTRY.'],
+['Crypto','Криптовалюты','Торгуется 24/7 без выходных. Высокая волатильность, много неликвидных монет, риск биржи и регуляции.','BTC, ETH, а также деривативы: perpetual futures.'],
+['Commodities','Товарный рынок','Нефть, газ, золото, серебро, зерно, кофе. Сильно зависит от сезонности, погоды и геополитики.','WTI, Brent, XAUUSD.'],
+['Indices','Индексы','Корзина акций одним инструментом: S&amp;P 500 (US500), NASDAQ 100 (US100), DAX (GER40).','Покупая US500, ты покупаешь весь американский рынок разом.'],
+['Futures','Фьючерсы','Биржевой контракт на покупку актива в будущем по фиксированной цене. Имеет дату экспирации и стандартный размер.','ES — фьючерс на S&amp;P 500, CL — на нефть.'],
+['Options','Опционы','Право (но не обязанность) купить (call) или продать (put) актив по strike-цене до даты экспирации. Покупатель платит премию.','Купил call на AAPL со страйком $200 — заработаешь, если цена уйдёт выше $200 + премия.'],
+['CFD','Контракт на разницу','Ты не владеешь активом, а торгуешь только разницей цен через брокера. Удобно для шорта и плеча, но контрагент — брокер, а не биржа.','Большинство розничных «форекс-брокеров» дают именно CFD.'],
+['OTC (Over the counter)','Внебиржевой рынок','Сделки напрямую между сторонами, без централизованной биржи. Так устроен Forex.','Котировка у двух брокеров может отличаться на доли пункта.'],
+['Exchange','Биржа','Централизованная площадка со стаканом заявок, клирингом и единой ценой для всех.','CME, Binance, Московская биржа.']
+]},
+{t:'h',v:'Кто двигает цену'},
+{t:'terms',v:[
+['Retail trader','Розничный трейдер','Частное лицо с небольшим счётом. Это ты. Не двигает рынок, а подстраивается под него.','Счёт от $100 до $100 000.'],
+['Institutional / Smart money','Институционалы, «умные деньги»','Банки, фонды, маркетмейкеры. Заходят объёмом, поэтому вынуждены набирать позицию частями и часто — против толпы.','Фонду нужно купить на $500 млн: он будет собирать заявки там, где много продавцов.'],
+['Market maker','Маркетмейкер','Участник, который постоянно выставляет и bid, и ask, зарабатывая на спреде и обеспечивая ликвидность.','Без него в стакане были бы дыры и огромные проскальзывания.'],
+['Whale','Кит','Крупный игрок, чья одиночная заявка способна сдвинуть цену. Термин из крипты.','Перевод 5 000 BTC на биржу часто предвещает давление продавцов.'],
+['Hedger','Хеджер','Не спекулянт: авиакомпания покупает фьючерс на керосин, чтобы зафиксировать цену топлива.','Экспортёр продаёт валютную выручку форвардом.'],
+['Volume','Объём','Сколько единиц актива наторговано за период. Рост цены на большом объёме убедительнее, чем на маленьком.','Пробой уровня без объёма — частый признак ложного пробоя.']
+]},
+{t:'chart',v:{path:[38,44,40,52,47,62,58,74],n:44,vol:3.4,seed:31,vol_:true,ema:[20],
+ttl:'Как выглядит здоровый восходящий тренд',
+cap:'Цена идёт вверх ступенями: импульс — откат — новый импульс. Каждый минимум выше предыдущего. Синяя линия — EMA20, она работает как «дно» откатов. Снизу — объём: на импульсах он выше, на откатах падает. Это классическая картина, к которой мы будем возвращаться весь курс.'}},
+{t:'h',v:'Торговые сессии'},
+{t:'p',v:'Волатильность распределена по времени неравномерно. Основной объём приходится на европейскую и американскую сессии, а их пересечение — самое движущее окно дня.'},
+{t:'table',v:{head:['Сессия','Время UTC','Характер'],rows:[
+['Sydney / Wellington','21:00–06:00','Тихо, узкие диапазоны, AUD и NZD'],
+['<b>Tokyo (Asian)</b>','00:00–09:00','Спокойно, часто формируется дневной диапазон. JPY, AUD'],
+['<b>London (European)</b>','07:00–16:00','Самая высокая ликвидность, старт трендов дня. EUR, GBP, CHF'],
+['<b>New York (US)</b>','12:00–21:00','Новости США, отчёты. Открытие акций в 13:30 UTC'],
+['<b>London + NY overlap</b>','12:00–16:00','Пик объёма, самые сильные движения дня']]}},
+{t:'note',h:'Практический вывод',v:'Если торгуешь внутри дня из Турции или России — твоё лучшее окно это <b>10:00–19:00 по местному времени</b>. Азиатская ночь для большинства стратегий бесполезна: спреды шире, движения мелкие.'}
+]});
+
+SECTIONS.push({id:'orders',n:'03',ttl:'Брокер, счёт и ордера',sub:'Как техника превращает решение в сделку',b:[
+{t:'h',v:'Типы ордеров'},
+{t:'terms',v:[
+['Market order','Рыночный ордер','Исполняется мгновенно по лучшей доступной цене. Гарантирует исполнение, но не цену.','Нажал Buy — купил по текущему Ask, возможно чуть хуже при быстром рынке.'],
+['Limit order','Лимитный ордер','Исполняется только по указанной цене или лучше. Гарантирует цену, но не исполнение.','Buy Limit 1.0800 сработает, только если цена опустится до 1.0800.'],
+['Stop order','Стоп-ордер','Превращается в рыночный, когда цена дошла до уровня. Используется для входа по пробою и для защиты.','Buy Stop 1.0900 купит при пробое сопротивления 1.0900.'],
+['Stop-limit','Стоп-лимит','При достижении стоп-цены выставляется лимитная заявка. Защищает от плохого исполнения, но может не сработать.','Стоп 100, лимит 99.5: если рынок пролетел до 98 — заявка останется висеть.'],
+['Stop Loss (SL)','Стоп-лосс','Автоматическое закрытие убыточной сделки. Самый важный ордер в жизни трейдера.','Купил по 100, стоп 97 → максимальный убыток фиксирован.'],
+['Take Profit (TP)','Тейк-профит','Автоматическая фиксация прибыли на заданной цене.','Купил по 100, TP 109 → закроется само.'],
+['Trailing stop','Трейлинг-стоп','Стоп, который ползёт за ценой на фиксированном расстоянии и не откатывает назад. Даёт «ехать» тренду.','Трейлинг 50 пунктов: цена +200 → стоп подтянулся к +150.'],
+['OCO (One Cancels the Other)','Один отменяет другой','Пара заявок: сработала одна — вторая снимается. Обычно SL и TP.','Стандарт для брекет-ордера.'],
+['GTC / IOC / FOK','Срок жизни заявки','GTC — до отмены; IOC — исполнить сколько можно немедленно, остаток снять; FOK — либо весь объём сразу, либо ничего.','У скальперов на бирже IOC — рабочий режим.'],
+['Slippage','Проскальзывание','Разница между ожидаемой и фактической ценой исполнения. Растёт на новостях и при низкой ликвидности.','Стоп стоял на 100, исполнился по 98.6 — минус ещё 1.4 пункта.'],
+['Order book / DOM','Стакан заявок','Список лимитных заявок на покупку и продажу по уровням цены. Показывает, где стоит ликвидность.','Плотная плита на 1.1000 часто удерживает цену.'],
+['Fill','Исполнение','Факт заключения сделки. Partial fill — исполнена часть объёма.','Заявка на 10 лотов исполнена на 6 — остальное ждёт.']
+]},
+{t:'h',v:'Деньги, плечо и размер позиции'},
+{t:'terms',v:[
+['Leverage','Кредитное плечо','Заёмные средства брокера. Плечо 1:100 позволяет управлять $100 000 при $1 000 своих. Оно увеличивает и прибыль, и убыток одинаково.','$1 000 с плечом 1:100: движение против тебя на 1% = минус весь депозит.'],
+['Margin','Маржа','Залог, замороженный под открытую позицию. Свободная маржа — то, что осталось для новых сделок.','Позиция $100 000 при плече 1:100 требует $1 000 маржи.'],
+['Margin call / Stop out','Маржин-колл, принудительное закрытие','Когда собственных средств не хватает на удержание позиции, брокер сначала предупреждает, затем закрывает сделки сам.','Уровень маржи упал ниже 50% → брокер закрывает худшую позицию.'],
+['Lot','Лот','Стандартный объём. На Forex 1 лот = 100 000 единиц базовой валюты, 0.1 — мини, 0.01 — микро.','0.01 лота EURUSD ≈ $0.10 за пункт.'],
+['Pip / Point / Tick','Пункт, тик','Минимальный шаг цены. Для большинства валютных пар пункт — 4-й знак после запятой, для пар с JPY — 2-й. Tick — минимальный шаг на бирже.','1.0850 → 1.0851 это +1 пункт.'],
+['Swap / Rollover','Своп','Плата или начисление за перенос позиции через ночь, зависит от разницы процентных ставок валют.','Держишь позицию неделю — своп может съесть заметную часть прибыли.'],
+['Commission','Комиссия','Плата брокеру за оборот, обычно за лот или процент от объёма.','$7 за лот туда-обратно — типично для ECN-счёта.'],
+['Equity / Balance','Средства и баланс','Balance — деньги без учёта открытых сделок; Equity — баланс плюс плавающий результат.','Баланс $5 000, минус по открытой позиции $400 → equity $4 600.'],
+['Drawdown','Просадка','Падение счёта от достигнутого максимума. Считается в процентах.','Пик $10 000, дно $7 500 → просадка 25%.']
+]},
+{t:'note',k:'warn',h:'Плечо — это не «больше денег», а «быстрее конец»',v:'Плечо не улучшает стратегию. Оно только умножает результат каждой сделки. Правильный порядок: сначала считаешь риск в деньгах (раздел 10), и только потом смотришь, какое плечо нужно, чтобы этот объём поместился. Часто нужное плечо оказывается 1:5, а не 1:500.'}
+]});
+
+SECTIONS.push({id:'chart',n:'04',ttl:'График и свеча',sub:'Алфавит, на котором написан рынок',b:[
+{t:'p',v:'Одна японская свеча (<span class="en">candlestick</span>) хранит четыре числа за период: <span class="en">Open</span> (открытие), <span class="en">High</span> (максимум), <span class="en">Low</span> (минимум), <span class="en">Close</span> (закрытие). Их сокращённо называют <span class="en">OHLC</span>. Тело — расстояние между открытием и закрытием, тени (<span class="en">wick / shadow</span>) — куда цена ходила, но не удержалась.'},
+{t:'chart',v:{path:[45,60,52,58,50,66],n:14,vol:6,seed:5,h:300,
+ann:[{t:'txt',x:2,p:82,l:'HIGH = максимум',c:'k'},{t:'txt',x:11,p:20,l:'LOW = минимум',c:'k'},{t:'m',x:4,p:70,d:'dn',l:'длинная верхняя тень: продавцы сбили цену'},{t:'m',x:9,p:38,d:'up',l:'длинная нижняя тень: покупатели выкупили'}],
+ttl:'Анатомия свечи',
+cap:'Зелёная (полая) свеча — закрытие выше открытия, покупатели победили в этом периоде. Красная (залитая) — закрытие ниже открытия. Длинная тень означает, что цену туда отвели, но противоположная сторона вернула её обратно — это след борьбы, самая ценная информация на графике.'}},
+{t:'h',v:'Виды графиков'},
+{t:'terms',v:[
+['Line chart','Линейный','Соединяет только цены закрытия. Убирает шум, удобен, чтобы увидеть общую форму тренда.','Полезен для поиска уровней на старших ТФ.'],
+['Bar chart (OHLC)','Барный','Тот же смысл, что свечи, но в виде вертикальной палки с засечками открытия слева и закрытия справа.','Популярен у американских трейдеров.'],
+['Candlestick','Японские свечи','Стандарт де-факто. Тело + тени, цвет показывает направление.','Всё, что дальше в этом учебнике, — про свечи.'],
+['Heikin Ashi','Хейкин Аши','Свечи со сглаженными значениями: каждая считается через средние. Тренд виден чище, но цены на них — не реальные.','Серия свечей без нижних теней = сильный тренд вверх.'],
+['Renko','Ренко','Кирпичики фиксированного размера, время игнорируется. Новый кирпич рисуется только при движении цены на заданную величину.','Отлично убирает шум, но запаздывает.'],
+['Point &amp; Figure','Крестики-нолики','Столбцы X и O, только значимые движения. Старая школа, до сих пор используется для целей по проекциям.','Ставит цели по ширине основания.'],
+['Timeframe','Таймфрейм','Чем меньше ТФ, тем больше шума и сигналов, тем выше требования к скорости и комиссии.','Скальпер — M1–M5, дейтрейдер — M15–H1, свинг — H4–D1, инвестор — W1–MN.'],
+['Gap','Гэп','Разрыв между закрытием одной свечи и открытием следующей. Бывает на открытии биржи или после новости.','Акция закрылась по $100, открылась по $107 — гэп вверх на 7%.']
+]},
+{t:'h',v:'Мультитаймфрейм: главное правило чтения'},
+{t:'p',v:'Один и тот же рынок выглядит по-разному на разных ТФ. Профессиональный подход — <b>три экрана</b>: старший ТФ задаёт направление, средний — зону сделки, младший — точный вход.'},
+{t:'table',v:{head:['Роль','ТФ','Что решаешь'],rows:[
+['<b>Bias</b> — направление','D1 / H4','Тренд вверх, вниз или флэт. Торгую только по нему'],
+['<b>Setup</b> — зона','H1 / M15','Где именно уровень, откуда буду входить'],
+['<b>Trigger</b> — вход','M15 / M5','Сигнальная свеча, точный вход и место стопа']]}},
+{t:'note',h:'Правило одного направления',v:'Если на D1 тренд вверх, ты ищешь <b>только покупки</b> на H1. Шорт против старшего тренда — самый частый способ слить депозит у новичка: даже если ты прав, тебя вынесут по стопу до того, как разворот случится.'}
+]});
+
+SECTIONS.push({id:'candles',n:'05',ttl:'Свечные паттерны',sub:'Все ключевые формации и что за ними стоит',b:[
+{t:'p',v:'Свечной паттерн — это не магия, а <b>сжатая история борьбы</b>. Паттерн работает только в контексте: молот на уровне поддержки после падения — сигнал; тот же молот посреди флэта — шум.'},
+{t:'chart',v:{path:[70,60,48,44,52,66],n:22,vol:4,seed:44,
+ann:[{t:'zone',p1:36,p2:44,k:'sup',l:'support'},{t:'m',x:12,p:40,d:'dn',l:'pin bar / hammer'},{t:'m',x:18,p:60,d:'dn',l:'подтверждение'}],
+ttl:'Паттерн работает только на уровне',
+cap:'Падение доходит до зоны поддержки, там появляется свеча с длинной нижней тенью — цену пытались продавить, но выкупили. Следующие свечи закрываются выше — это подтверждение. Вход после закрытия подтверждающей свечи, стоп под тенью пин-бара.'}},
+{t:'h',v:'Одиночные свечи'},
+{t:'terms',v:[
+['Doji','Доджи','Открытие почти равно закрытию, тело крошечное. Равновесие сил, нерешительность. На вершине тренда — предупреждение о развороте.','Доджи после длинного роста → сокращай позицию или подтягивай стоп.'],
+['Hammer','Молот','Маленькое тело сверху, длинная нижняя тень (в 2+ раза больше тела). Появляется внизу движения — покупатели перехватили инициативу.','Молот на уровне поддержки + рост объёма = сильный сигнал на лонг.'],
+['Hanging man','Повешенный','Внешне тот же молот, но на вершине восходящего движения. Значит, что продавцы уже пробовали продавить рынок.','Требует подтверждения — красной свечи следом.'],
+['Shooting star','Падающая звезда','Маленькое тело внизу, длинная верхняя тень, на вершине. Цену задрали и продали.','Классический сигнал шорта на сопротивлении.'],
+['Inverted hammer','Перевёрнутый молот','Та же форма, но внизу тренда: попытка роста, отбитая, но показавшая интерес покупателей.','Нужен подтверждающий зелёный бар.'],
+['Marubozu','Марубозу','Свеча без теней или почти без них: цена шла в одну сторону весь период. Максимальная сила направления.','Бычий марубозу на пробое уровня подтверждает пробой.'],
+['Spinning top','Волчок','Маленькое тело, тени с обеих сторон. Баланс, часто пауза перед продолжением.','Внутри тренда — обычно просто отдых.'],
+['Pin bar','Пин-бар','Обобщённое название молота и падающей звезды в прайс-экшене: тень минимум 2/3 всей свечи, тело у противоположного края.','Основной сигнал для стратегий price action.']
+]},
+{t:'h',v:'Паттерны из двух и трёх свечей'},
+{t:'terms',v:[
+['Bullish engulfing','Бычье поглощение','Зелёная свеча полностью перекрывает телом тело предыдущей красной. Смена контроля.','На поддержке после снижения — вход на закрытии поглощающей свечи.'],
+['Bearish engulfing','Медвежье поглощение','Красная свеча поглощает тело предыдущей зелёной. Разворот вниз.','На сопротивлении — сигнал шорта.'],
+['Harami','Харами','Маленькая свеча целиком внутри тела предыдущей большой. Импульс выдохся.','Часто предшествует консолидации, а не резкому развороту.'],
+['Piercing line','Просвет в облаках','Красная свеча, затем зелёная открывается ниже и закрывается выше середины красной. Бычий разворот.','Чем глубже перекрытие, тем сильнее сигнал.'],
+['Dark cloud cover','Завеса из тёмных облаков','Зеркальный вариант: зелёная, затем красная закрывается ниже середины тела зелёной.','Медвежий разворот на вершине.'],
+['Morning star','Утренняя звезда','Три свечи: большая красная, маленькая с гэпом вниз, большая зелёная. Одно из самых надёжных разворотных сочетаний внизу.','Особенно сильно на дневном ТФ у поддержки.'],
+['Evening star','Вечерняя звезда','Зеркально: большая зелёная, маленькая наверху, большая красная. Разворот вниз.','Классика вершин.'],
+['Three white soldiers','Три белых солдата','Три подряд растущие свечи с крупными телами, каждая закрывается выше предыдущей. Мощное бычье продолжение.','Часто в начале нового тренда после базы.'],
+['Three black crows','Три чёрных вороны','Три подряд падающие свечи с крупными телами. Сильное давление продавцов.','После длинного роста — начало распродажи.'],
+['Tweezer top / bottom','Пинцет','Две-три свечи с почти одинаковыми максимумами (top) или минимумами (bottom). Уровень держит.','Пинцет на поддержке = точка входа с очень коротким стопом.'],
+['Inside bar','Внутренний бар','Свеча полностью внутри диапазона предыдущей. Сжатие волатильности, часто перед импульсом.','Вход по пробою границы материнской свечи.'],
+['Outside bar','Внешний бар','Свеча перекрывает диапазон предыдущей и сверху, и снизу. Захват стопов с обеих сторон.','Часто маркирует локальный разворот.']
+]},
+{t:'chart',v:{path:[65,55,50,74],n:16,vol:5,seed:77,
+ann:[{t:'zone',p1:44,p2:52,k:'sup',l:'зона спроса'},{t:'m',x:9,p:48,d:'dn',l:'bullish engulfing'},{t:'h',p:46,l:'стоп',c:'r'},{t:'h',p:74,l:'цель',c:'g'}],
+ttl:'Бычье поглощение как триггер входа',
+cap:'Цена приходит в зону спроса, последняя красная свеча поглощается крупной зелёной — покупатели забрали весь диапазон продавцов. Вход по закрытию, стоп под минимумом зоны, цель — ближайшее сопротивление. Соотношение риск/прибыль здесь примерно 1 к 3.'}},
+{t:'note',k:'warn',h:'Три фильтра, без которых паттерн бесполезен',v:'1) <b>Где</b> он появился — только на значимом уровне или зоне. 2) <b>После чего</b> — паттерн разворота нужен после движения, а не в середине флэта. 3) <b>Подтверждение</b> — следующая свеча должна закрыться в сторону сигнала. Без этих трёх условий процент отработки падает почти до случайного.'}
+]});
+
+SECTIONS.push({id:'structure',n:'06',ttl:'Структура рынка',sub:'Тренд, уровни, зоны и ликвидность',b:[
+{t:'p',v:'Прежде чем искать сигналы, нужно ответить на один вопрос: <b>рынок идёт или стоит?</b> Всё остальное — производная от этого ответа. Тренд определяется по последовательности экстремумов, а не по ощущению.'},
+{t:'terms',v:[
+['Uptrend','Восходящий тренд','Каждый следующий максимум выше предыдущего и каждый минимум выше предыдущего: <span class="en">Higher High (HH)</span> и <span class="en">Higher Low (HL)</span>.','Пока цена держит серию HH/HL — покупаем откаты.'],
+['Downtrend','Нисходящий тренд','Серия <span class="en">Lower High (LH)</span> и <span class="en">Lower Low (LL)</span>.','Продаём отскоки к сопротивлению.'],
+['Range / Sideways','Флэт, диапазон','Цена ходит между горизонтальными границами без новых экстремумов. Примерно 70% времени рынок именно в этом состоянии.','Торгуем от границ внутрь, а не по пробою.'],
+['Support','Поддержка','Уровень, где покупателей достаточно, чтобы остановить падение.','Цена трижды отскочила от 1.0800 — это поддержка.'],
+['Resistance','Сопротивление','Уровень, где продавцы останавливают рост.','Пробитая поддержка часто становится сопротивлением, и наоборот.'],
+['Supply / Demand zone','Зона предложения и спроса','Не линия, а диапазон, откуда цена ранее ушла резким импульсом. Там остался неисполненный объём крупных игроков.','База перед вертикальным ростом — зона спроса.'],
+['Breakout','Пробой','Выход цены за границу уровня или диапазона с закрытием свечи за ним.','Пробой на объёме — истинный, без объёма — подозрительный.'],
+['Fakeout / False breakout','Ложный пробой','Цена вышла за уровень, собрала стопы и вернулась обратно. Один из самых прибыльных паттернов, если торговать его в обратную сторону.','Свеча пробила максимум и закрылась ниже — сигнал на разворот.'],
+['Retest','Ретест','Возврат к пробитому уровню и отбой от него с другой стороны. Подтверждает пробой и даёт вход с коротким стопом.','Основа стратегии Break &amp; Retest (раздел 09).'],
+['Trendline','Трендовая линия','Линия по двум и более минимумам (в аптренде) или максимумам (в даунтренде). Третье касание — самое рабочее.','Пробой трендовой = первый признак смены структуры.'],
+['Channel','Канал','Две параллельные линии, между которыми ходит цена.','Покупки от нижней границы восходящего канала.'],
+['Swing high / low','Свинг-максимум и минимум','Локальный экстремум, вокруг которого есть более низкие (или высокие) свечи. Точки, по которым и строится структура.','Стоп ставят за ближайший свинг, а не «на глаз».'],
+['Liquidity','Ликвидность (пул стопов)','Скопление стоп-ордеров за очевидными экстремумами. Крупному игроку нужен объём, поэтому цену часто ведут именно туда.','Двойная вершина = над ней куча стопов, туда и сходят.'],
+['Liquidity sweep / Stop hunt','Съём ликвидности, охота за стопами','Резкий прокол уровня с быстрым возвратом. Именно так набирают крупную позицию.','Прокол минимума дня и возврат внутрь — частый разворотный сценарий.'],
+['BOS (Break of Structure)','Слом структуры','Пробой предыдущего значимого экстремума в сторону тренда — подтверждение продолжения.','В аптренде BOS = обновление HH.'],
+['CHoCH (Change of Character)','Смена характера','Первый пробой структуры против тренда: аптренд обновил не HH, а сломал последний HL. Первый звонок о развороте.','После CHoCH ждём подтверждения и разворачиваем bias.'],
+['Order block (OB)','Ордер-блок','Последняя противоположная свеча перед сильным импульсом. Считается следом крупной заявки, к которой цена возвращается.','Последняя красная свеча перед мощным ростом = бычий OB.'],
+['FVG / Imbalance','Дисбаланс, неэффективность','Разрыв между тенями соседних свечей: цена прошла слишком быстро, часть заявок не исполнилась. Часто заполняется.','Три свечи, где тени 1-й и 3-й не пересекаются, — это FVG.'],
+['Premium / Discount','Дорого / дёшево','Верхняя половина диапазона — премиум (там продают), нижняя — дисконт (там покупают). Считается от 50% импульса.','Покупать в аптренде разумно только в дисконте.'],
+['Consolidation','Консолидация','Сжатие волатильности перед выходом. Свечи мельчают, диапазон сужается.','Чем дольше сжатие, тем сильнее последующий импульс.']
+]},
+{t:'chart',v:{path:[30,50,42,64,54,78,66,88],n:48,vol:3,seed:12,
+ann:[{t:'txt',x:6,p:56,l:'HH',c:'k'},{t:'txt',x:12,p:38,l:'HL',c:'k'},{t:'txt',x:19,p:70,l:'HH',c:'k'},{t:'txt',x:26,p:50,l:'HL',c:'k'},{t:'txt',x:33,p:84,l:'HH',c:'k'},{t:'ln',x1:2,p1:28,x2:41,p2:70,l:'trendline',c:'b'}],
+ttl:'Как выглядит структура аптренда',
+cap:'Каждый максимум выше предыдущего (HH), каждый минимум выше предыдущего (HL). Пока эта последовательность жива — тренд жив, и любые продажи здесь работают против рынка. Тренд сломается только тогда, когда цена уйдёт ниже последнего HL: это и будет CHoCH.'}},
+{t:'chart',v:{path:[40,72,42,70,44,72,40,72,90],n:52,vol:3,seed:63,
+ann:[{t:'h',p:73,l:'resistance',c:'r'},{t:'h',p:40,l:'support',c:'g'},{t:'m',x:44,p:76,d:'up',l:'breakout'},{t:'txt',x:20,p:58,l:'RANGE / ФЛЭТ',c:'k'}],
+ttl:'Диапазон и его пробой',
+cap:'Внутри диапазона стратегия одна: продавать у верхней границы, покупать у нижней, стоп за границей. Как только появилось закрытие за уровнем с ростом объёма — режим меняется: диапазон становится трамплином, и теперь ты торгуешь по тренду, а не против него.'}},
+{t:'note',h:'Как ставить уровень правильно',v:'Уровень рисуется по <b>зонам, а не по одной точке</b>: возьми область между телами и тенями нескольких касаний. Чем старше таймфрейм, тем важнее уровень. Уровень с 3+ касаниями и сильной реакцией важнее, чем нарисованный по одному экстремуму.'}
+]});
+
+SECTIONS.push({id:'patterns',n:'07',ttl:'Графические паттерны',sub:'Фигуры разворота и продолжения',b:[
+{t:'p',v:'Фигуры — это визуальная форма одного и того же процесса: накопления (<span class="en">accumulation</span>) или распределения (<span class="en">distribution</span>). У каждой есть <b>измеряемая цель</b>: высота фигуры откладывается от точки пробоя.'},
+{t:'h',v:'Разворотные фигуры'},
+{t:'chart',v:{path:[26,50,38,52,40,74,42,54,38,20],n:56,vol:2.8,seed:21,
+ann:[{t:'h',p:40,l:'neckline',c:'r',solid:1},{t:'txt',x:8,p:56,l:'shoulder',c:'k'},{t:'txt',x:26,p:80,l:'HEAD',c:'k'},{t:'txt',x:42,p:60,l:'shoulder',c:'k'},{t:'m',x:50,p:34,d:'up',l:'вход после пробоя'},{t:'h',p:20,l:'цель = высота головы',c:'g'}],
+ttl:'Head and Shoulders — голова и плечи',
+cap:'Три вершины: средняя выше боковых. Линия шеи проводится по минимумам между вершинами. Сигнал появляется не на голове, а на <b>закрытии свечи под линией шеи</b>. Стоп — за правым плечом, цель — расстояние от головы до шеи, отложенное вниз. Перевёрнутая фигура (Inverse H&amp;S) работает так же на развороте вверх.'}},
+{t:'terms',v:[
+['Head and Shoulders','Голова и плечи','Разворот тренда вверх → вниз. Три пика, средний выше. Подтверждение — пробой линии шеи.','Цель = высота головы от шеи вниз.'],
+['Inverse Head and Shoulders','Перевёрнутая ГиП','Зеркальная фигура внизу тренда, разворот вниз → вверх.','Одна из самых надёжных разворотных фигур на D1.'],
+['Double top','Двойная вершина','Два примерно равных максимума с откатом между ними. Форма буквы M.','Пробой промежуточного минимума = вход в шорт.'],
+['Double bottom','Двойное дно','Два равных минимума, форма W. Разворот вверх.','Часто второй минимум чуть ниже первого — это съём ликвидности.'],
+['Triple top / bottom','Тройная вершина/дно','То же, но с тремя касаниями. Сильнее, но встречается реже.','Каждое неудачное касание уменьшает силу продавцов.'],
+['Rounding top / bottom','Округлое дно/вершина','Плавная дуга без резких экстремумов. Долгая смена настроения рынка.','Типично для акций после длинного нисходящего тренда.'],
+['Diamond','Алмаз','Расширение, затем сужение диапазона. Редкая, обычно разворотная на вершинах.','Пробой нижней грани — сигнал шорта.'],
+['V-reversal','V-разворот','Резкий разворот без формирования базы, обычно на новостях или панике.','Самая опасная фигура: ловить нож без подтверждения нельзя.']
+]},
+{t:'h',v:'Фигуры продолжения'},
+{t:'chart',v:{path:[25,80,72,78,70,76,68,98],n:50,vol:2.6,seed:88,
+ann:[{t:'ln',x1:14,p1:82,x2:38,p2:72,c:'b'},{t:'ln',x1:14,p1:70,x2:38,p2:62,c:'b',l:'flag'},{t:'m',x:6,p:52,d:'dn',l:'flagpole'},{t:'m',x:42,p:80,d:'dn',l:'entry'},{t:'h',p:98,l:'цель = длина флагштока',c:'g'}],
+ttl:'Bull Flag — бычий флаг',
+cap:'Резкий импульс вверх (флагшток), затем узкий откат вниз-вбок против движения — это фиксация прибыли, а не разворот. Вход по пробою верхней границы флага, стоп под нижней границей, цель — длина флагштока, отложенная от точки пробоя. Ключевой фильтр: во время флага объём должен падать.'}},
+{t:'terms',v:[
+['Bull / Bear flag','Бычий и медвежий флаг','Импульс + узкий наклонный откат против него. Продолжение движения.','Один из самых частых внутридневных паттернов.'],
+['Pennant','Вымпел','То же, что флаг, но откат в форме маленького сходящегося треугольника.','Пробой обычно быстрый и резкий.'],
+['Ascending triangle','Восходящий треугольник','Горизонтальное сопротивление и растущие минимумы. Покупатели давят вверх — обычно пробой вверх.','Каждый откат мельче — признак нехватки продавцов.'],
+['Descending triangle','Нисходящий треугольник','Горизонтальная поддержка и снижающиеся максимумы. Обычно пробой вниз.','Зеркальная логика.'],
+['Symmetrical triangle','Симметричный треугольник','Сходящиеся границы, направление пробоя заранее неизвестно. Торгуют по факту выхода.','Ставь два ордера-стоп с двух сторон, но помни о ложных выходах.'],
+['Rising / Falling wedge','Восходящий и нисходящий клин','Обе границы наклонены в одну сторону и сходятся. Восходящий клин обычно ломается вниз, нисходящий — вверх.','Часто финальная фаза выдыхающегося тренда.'],
+['Rectangle','Прямоугольник','Горизонтальный диапазон внутри тренда, пауза перед продолжением.','Торгуется и от границ, и по пробою.'],
+['Cup and handle','Чашка с ручкой','Округлое дно (чашка), затем маленький откат (ручка). Бычий паттерн на акциях.','Вход по пробою верхней кромки чашки.'],
+['Channel','Канал','Параллельные границы. Восходящий, нисходящий или горизонтальный.','Ждём отбоя от границы, не пробоя, пока структура цела.']
+]},
+{t:'chart',v:{path:[30,64,44,66,50,66,55,66,90],n:52,vol:2.4,seed:34,
+ann:[{t:'h',p:66,l:'resistance',c:'r',solid:1},{t:'ln',x1:6,p1:36,x2:40,p2:60,c:'b',l:'растущие минимумы'},{t:'m',x:45,p:70,d:'dn',l:'breakout + retest'},{t:'h',p:90,l:'measured move',c:'g'}],
+ttl:'Ascending triangle — восходящий треугольник',
+cap:'Сопротивление держит, но каждая волна продавцов слабее предыдущей: минимумы растут. Давление накапливается, и обычно пробой происходит вверх. Цель считается как высота основания треугольника от точки пробоя. Вход надёжнее не на самом пробое, а на возврате к пробитому уровню.'}},
+{t:'note',k:'warn',h:'Главная ловушка фигур',v:'Мозг находит фигуры там, где их нет — это <span class="en">apophenia</span>. Правило: фигура засчитывается, только если её видно <b>без подгонки линий</b> и она находится в логичном месте структуры. Если приходится уговаривать себя, что «почти похоже на ГиП» — это не сетап.'}
+]});
+SECTIONS.push({id:'indicators',n:'08',ttl:'Индикаторы',sub:'Инструменты, а не оракулы',b:[
+{t:'p',v:'Индикатор — это формула, посчитанная по уже случившимся ценам. Он <b>ничего не предсказывает</b>, он упрощает то, что и так есть на графике. Делятся на два класса: <span class="en">trend-following</span> (запаздывают, но держат в тренде) и <span class="en">oscillators</span> (показывают перекупленность, но врут в тренде).'},
+{t:'note',k:'warn',h:'Правило двух индикаторов',v:'Больше двух-трёх индикаторов на графике — это не «больше подтверждений», а <b>один и тот же сигнал, посчитанный четыре раза</b>. RSI, Stochastic и CCI показывают почти одно и то же. Возьми один трендовый + один осциллятор + объём. Всё.'},
+{t:'h',v:'Трендовые'},
+{t:'terms',v:[
+['SMA (Simple Moving Average)','Простая скользящая средняя','Среднее арифметическое цен закрытия за N периодов. Сглаживает шум и показывает направление.','SMA(200) на D1 — граница «бычьего» и «медвежьего» рынка для институционалов.'],
+['EMA (Exponential MA)','Экспоненциальная средняя','То же, но с большим весом свежих цен — быстрее реагирует.','EMA(20) часто работает как динамическая поддержка в тренде.'],
+['MA crossover','Пересечение средних','Быстрая MA пересекает медленную снизу вверх — <span class="en">golden cross</span>, сверху вниз — <span class="en">death cross</span>.','EMA50 × EMA200 на D1 — классический фильтр рынка.'],
+['MACD','Схождение-расхождение средних','Разница двух EMA (12 и 26) плюс сигнальная линия (9) и гистограмма. Показывает силу и смену импульса.','Пересечение гистограммой нуля = смена импульса.'],
+['ADX / DMI','Индекс направленного движения','ADX измеряет только силу тренда, не направление. Ниже 20 — флэт, выше 25 — тренд, выше 40 — сильный тренд.','ADX < 20 → выключаем трендовые стратегии.'],
+['Ichimoku Kinko Hyo','Ишимоку','Комплексная система: Tenkan, Kijun, облако Kumo, Chikou. Цена выше облака — бычий рынок, внутри — неопределённость.','Пробой облака вверх — сигнал среднесрочного лонга.'],
+['Parabolic SAR','Параболик','Точки, которые следуют за ценой и переворачиваются при развороте. Удобен как трейлинг-стоп.','На флэте даёт сплошные ложные сигналы.'],
+['Bollinger Bands','Полосы Боллинджера','Средняя ± 2 стандартных отклонения. Показывают волатильность: полосы сужаются — затишье перед бурей.','<span class="en">Squeeze</span> — сжатие полос, часто перед импульсом.'],
+['Keltner Channel','Канал Кельтнера','Похож на Боллинджер, но ширина строится на ATR, а не на отклонении. Более гладкий.','Комбинация Bollinger внутри Keltner = классический squeeze-сигнал.'],
+['VWAP','Средневзвешенная по объёму цена','Средняя цена дня с учётом объёма. Институциональный ориентир «дорого/дёшево» внутри дня.','Цена выше VWAP — покупатели контролируют день.']
+]},
+{t:'h',v:'Осцилляторы и объём'},
+{t:'terms',v:[
+['RSI (Relative Strength Index)','Индекс относительной силы','Шкала 0–100. Выше 70 — перекупленность, ниже 30 — перепроданность. В сильном тренде может неделями стоять выше 70 — это не сигнал шорта.','Главная ценность RSI — дивергенции, а не уровни 70/30.'],
+['Stochastic','Стохастик','Показывает, где закрытие относительно диапазона за N периодов. Две линии %K и %D.','Пересечение линий в зоне перепроданности на поддержке — сигнал лонга.'],
+['CCI','Индекс товарного канала','Отклонение цены от её средней. Значения выше +100 и ниже −100 считаются экстремальными.','Работает похоже на RSI.'],
+['Williams %R','Проценты Уильямса','Инверсия стохастика, шкала от 0 до −100.','−20 и выше — перекупленность.'],
+['Divergence','Дивергенция','Цена делает новый максимум, а индикатор — нет. Значит, импульс слабеет. Bearish — на вершинах, bullish — на низах.','Самый ценный сигнал любого осциллятора.'],
+['ATR (Average True Range)','Средний истинный диапазон','Средний размах свечи за N периодов. Не показывает направление, только волатильность.','Стоп = 1.5 × ATR — способ ставить стоп по рынку, а не «на глаз».'],
+['OBV (On Balance Volume)','Балансовый объём','Накопительный объём: прибавляется на росте, вычитается на падении. Показывает, накапливают или распределяют.','OBV растёт, а цена стоит — идёт накопление.'],
+['Volume Profile','Профиль объёма','Гистограмма объёма по ценовым уровням, а не по времени. Показывает, где реально торговали.','<span class="en">POC</span> (Point of Control) — цена с максимальным объёмом, магнит для рынка.'],
+['Fibonacci retracement','Уровни Фибоначчи','Уровни коррекции импульса: 23.6%, 38.2%, 50%, 61.8%, 78.6%. Зона 50–61.8% — самая рабочая для входа по тренду.','Растянуть от начала импульса до его конца и ждать откат в зону.'],
+['Pivot Points','Пивот-уровни','Расчётные уровни поддержки и сопротивления на основе вчерашних H, L, C. Популярны у дейтрейдеров.','R1, R2, S1, S2 — цели и точки разворота дня.']
+]},
+{t:'chart',v:{path:[35,62,52,70,60,74,66,50],n:50,vol:2.8,seed:57,ema:[20,50],
+ann:[{t:'txt',x:19,p:74,l:'HH',c:'k'},{t:'txt',x:33,p:80,l:'HH, но импульс слабее',c:'k',al:'end'},{t:'m',x:38,p:70,d:'up',l:'bearish divergence → выход'}],
+ttl:'Дивергенция: цена растёт, сила падает',
+cap:'Цена делает более высокий максимум, но RSI и MACD — более низкий. Покупатели ещё дожимают, но каждый следующий рывок слабее предыдущего. Это не сигнал сразу шортить: это сигнал <b>перестать покупать</b>, подтянуть стоп и ждать слома структуры. Шорт открывается только после CHoCH.'}},
+{t:'chart',v:{path:[50,54,50,52,51,53,50,78],n:48,vol:1.4,seed:96,vol_:true,
+ann:[{t:'box',x1:6,x2:34,p1:56,p2:46,l:'squeeze: сжатие волатильности'},{t:'m',x:40,p:60,d:'dn',l:'вход по пробою'}],
+ttl:'Bollinger Squeeze — сжатие перед импульсом',
+cap:'Волатильность цикличная: после длинного периода узких свечей всегда приходит расширение. Само сжатие направление не подсказывает — торгуется факт выхода за границу диапазона с ростом объёма. Стоп ставится на противоположную границу сжатия.'}}
+]});
+SECTIONS.push({id:'strategies',n:'09',ttl:'Стратегии',sub:'Пошагово: вход, стоп, цель, ошибки',b:[
+{t:'p',v:'Стратегия — это <b>набор условий, при которых ты обязан действовать одинаково</b>. Если решение зависит от настроения, это не стратегия. Каждая карточка ниже описана в одном формате: рынок и таймфрейм, идея, шаги, вход, стоп, цель, плюсы и минусы.'},
+{t:'note',h:'Как выбрать свою',v:'Не пытайся освоить все. Возьми <b>одну</b>, которая совпадает с твоим графиком жизни: есть 6 часов в день у экрана — внутридневные; есть 20 минут вечером — свинг на H4/D1. Торгуй её 100 сделок на демо, и только потом рассматривай вторую.'},
+
+{t:'h',v:'Трендовые стратегии'},
+{t:'strat',v:[
+{en:'Trend Pullback (Buy the Dip)',ru:'Вход на откате по тренду',tags:['Forex, акции, крипта','H1–D1','Свинг','Сложность: низкая'],
+idea:'Тренд движется ступенями. Мы не догоняем импульс, а ждём откат к динамической поддержке и входим туда, где стоп получается коротким, а потенциал — длинным.',
+steps:['На D1 определи тренд: серия HH/HL — только покупки.','Нанеси EMA20 и зону Фибоначчи 38.2–61.8% от последнего импульса.','Дождись отката цены в эту зону. Не входи, пока цена летит вверх.','Дождись сигнальной свечи: пин-бар, поглощение или закрытие обратно выше EMA20.','Входи по закрытию сигнальной свечи.'],
+entry:'Закрытие подтверждающей свечи в зоне отката (обычно 50% Фибо + EMA20).',
+stop:'Под последним минимумом отката (swing low) с запасом 0.3 × ATR.',
+take:'Первая цель — предыдущий максимум (обновление HH). Половину позиции фиксируем там, остальное ведём трейлингом по EMA20.',
+chart:{path:[30,58,44,70,55,88],n:44,vol:3,seed:19,ema:[20],
+ann:[{t:'zone',p1:52,p2:60,k:'sup',l:'зона отката'},{t:'m',x:26,p:56,d:'dn',l:'ENTRY'},{t:'h',p:49,l:'STOP',c:'r'},{t:'h',p:86,l:'TARGET',c:'g'}],
+cap:'Импульс вверх, откат к EMA20 и зоне 50% Фибоначчи, разворотная свеча — вход. Стоп под минимумом отката, цель за предыдущим максимумом. Риск/прибыль здесь около 1:3.'},
+pros:['Работает на всех рынках и ТФ','Короткий стоп — большое R','Идёшь по направлению крупных денег'],
+cons:['Откат может стать разворотом — нужен фильтр CHoCH','Соблазн войти слишком рано, «на лету»','Во флэте генерирует убыточную серию — нужен ADX > 20']},
+
+{en:'Break and Retest',ru:'Пробой с возвратом',tags:['Все рынки','M15–H4','Дейтрейд и свинг','Сложность: низкая'],
+idea:'Вход не в момент пробоя (там максимум ложных сигналов), а на возврате к пробитому уровню: бывшее сопротивление становится поддержкой.',
+steps:['Найди чёткий горизонтальный уровень с 2+ касаниями.','Дождись <b>закрытия свечи</b> за уровнем, желательно на выросшем объёме.','Не входи. Жди возврата цены к уровню.','На ретесте ищи разворотную свечу от уровня.','Входи по её закрытию.'],
+entry:'Разворотная свеча на ретесте пробитого уровня.',
+stop:'За уровень, обратно внутрь старого диапазона (0.5 × ATR ниже).',
+take:'Ширина диапазона, отложенная от точки пробоя; либо следующий значимый уровень.',
+chart:{path:[40,68,44,70,42,68,88,72,100],n:52,vol:2.8,seed:41,
+ann:[{t:'h',p:69,l:'уровень',c:'r',solid:1},{t:'m',x:40,p:73,d:'dn',l:'RETEST → вход'},{t:'h',p:63,l:'STOP',c:'r'},{t:'h',p:98,l:'TARGET',c:'g'}],
+cap:'Первый выход за уровень часто ложный, поэтому мы пропускаем его. Настоящий сигнал — когда цена вернулась к уровню и он удержал её уже с другой стороны. Стоп минимальный, а вероятность выше.'},
+pros:['Очень маленький стоп → высокое R','Понятная инвалидация: вернулись внутрь — сетап отменён','Легко проверяется на истории'],
+cons:['Ретеста может не быть — уедешь без сделки','На сильных новостях уровень пролетают насквозь','Нужно терпение: половина сетапов не реализуется']},
+
+{en:'Moving Average Crossover',ru:'Пересечение скользящих средних',tags:['Индексы, акции, крипта','H4–D1','Трендследящая','Сложность: минимальная'],
+idea:'Механическая система: быстрая средняя выше медленной — только лонги, ниже — только шорты. Ловит крупные тренды и не даёт сидеть против них.',
+steps:['Нанеси EMA50 и EMA200 на D1.','Пересечение EMA50 снизу вверх (golden cross) → режим покупок.','Вход по пробою максимума свечи пересечения либо на первом откате к EMA50.','Держи, пока средние не пересекутся обратно.'],
+entry:'Пересечение + подтверждение ценой (закрытие выше обеих средних).',
+stop:'Под EMA200 или под последним swing low.',
+take:'Без фиксированной цели: выход по обратному пересечению или по трейлингу за EMA50.',
+pros:['Полностью механическая, ноль субъективности','Ловит длинные тренды целиком','Идеальна для первого бэктеста новичка'],
+cons:['Сильно запаздывает на входе и выходе','Во флэте серия убытков (whipsaw)','Психологически тяжело отдавать 30–40% прибыли на выходе']},
+
+{en:'Donchian / Turtle Breakout',ru:'Пробой канала (система «Черепах»)',tags:['Фьючерсы, товары, крипта','D1','Трендследящая','Сложность: низкая'],
+idea:'Легендарная система 1980-х: покупаем пробой максимума за 20 дней, продаём пробой минимума за 20 дней. Прибыль делают редкие большие тренды.',
+steps:['Нанеси канал Дончиана 20 периодов.','Buy Stop на уровне максимума канала, Sell Stop на минимуме.','Позиция открывается автоматически при пробое.','Выход — по пробою канала за 10 периодов в обратную сторону.'],
+entry:'Пробой 20-дневного экстремума.',
+stop:'2 × ATR(20) от точки входа.',
+take:'Нет фиксированной цели: выход по 10-дневному каналу.',
+pros:['Исторически доказанная логика trend following','Ноль прогнозов, только исполнение','Хорошо работает на товарах и крипте'],
+cons:['Win rate около 35% — большинство сделок убыточные','Требует очень крепкой психики и большой выборки','Длинные просадки по 6–12 месяцев']},
+
+{en:'Ichimoku Kumo Breakout',ru:'Пробой облака Ишимоку',tags:['Forex, индексы','H4–D1','Свинг','Сложность: средняя'],
+idea:'Облако — это зона равновесия. Выход цены за облако означает смену режима рынка, а сама толщина облака показывает силу сопротивления.',
+steps:['Стандартные настройки 9-26-52.','Цена закрывается выше облака Kumo → бычий режим.','Дополнительно: Tenkan выше Kijun, Chikou выше цены 26 периодов назад.','Вход по закрытию свечи над облаком или на откате к Kijun-sen.'],
+entry:'Закрытие над облаком при совпадении трёх условий.',
+stop:'Под нижнюю границу облака (Senkou Span B).',
+take:'Ближайший значимый уровень; трейлинг по Kijun-sen.',
+pros:['Один инструмент даёт тренд, уровни и трейлинг','Отлично фильтрует флэт: внутри облака — не торгуем','Сильно работает на JPY-парах'],
+cons:['Визуально перегружает график','Запаздывает после резких разворотов','Много правил — трудно соблюдать все сразу']}
+]},
+
+{t:'h',v:'Контртрендовые и диапазонные'},
+{t:'strat',v:[
+{en:'Range Trading (Mean Reversion)',ru:'Торговля в диапазоне',tags:['Forex, крипта','M15–H4','Внутри дня','Сложность: низкая'],
+idea:'70% времени рынок стоит. Если границы диапазона держат, покупаем у нижней и продаём у верхней, играя на возврате к середине.',
+steps:['Убедись, что рынок во флэте: ADX < 20, минимум 2 касания каждой границы.','Отметь верхнюю и нижнюю границу зонами, а не линиями.','У границы жди сигнальную свечу (пин-бар, поглощение) + перепроданность RSI.','Входи внутрь диапазона.'],
+entry:'Разворотная свеча у границы диапазона.',
+stop:'За границу, 0.5–1 × ATR.',
+take:'Середина диапазона (безопасно) или противоположная граница (агрессивно).',
+chart:{path:[42,72,44,70,46,72,42],n:48,vol:2.6,seed:73,
+ann:[{t:'zone',p1:68,p2:74,k:'res',l:'sell zone'},{t:'zone',p1:40,p2:46,k:'sup',l:'buy zone'},{t:'m',x:10,p:70,d:'up',l:'SELL'},{t:'m',x:20,p:44,d:'dn',l:'BUY'}],
+cap:'Пока границы держат, каждое касание — сделка внутрь. Как только появилось закрытие за границей — режим окончен, стратегия выключается, и ты переходишь к пробойной логике.'},
+pros:['Высокий процент прибыльных сделок','Понятные точки входа и выхода','Много сетапов в спокойные периоды'],
+cons:['Один пробой съедает несколько прибыльных сделок','Нужна железная дисциплина по стопу','Легко перепутать флэт с началом тренда']},
+
+{en:'RSI Divergence Reversal',ru:'Разворот по дивергенции',tags:['Все рынки','H1–D1','Контртренд','Сложность: средняя'],
+idea:'Цена ставит новый экстремум, а осциллятор — нет. Импульс иссякает, значит, разворот вероятен. Но входим только после подтверждения структурой.',
+steps:['Найди на графике новый максимум цены при более низком максимуме RSI.','Дождись слома структуры (CHoCH): цена ушла ниже последнего HL.','Дождись отката вверх к сломанному уровню.','Входи в шорт от него.'],
+entry:'Ретест сломанного уровня после CHoCH.',
+stop:'За последний максимум цены.',
+take:'Ближайшая крупная поддержка; минимум 1:2.',
+pros:['Ловит развороты близко к экстремуму','Отличное R при удачном входе','Хорошо сочетается с уровнями'],
+cons:['Дивергенция может длиться очень долго','Без подтверждения структурой — ловля ножей','Не работает в сильных трендах — там дивергенции постоянные']},
+
+{en:'Failed Breakout / Fakeout Fade',ru:'Торговля ложного пробоя',tags:['Forex, крипта','M15–H4','Контртренд','Сложность: средняя'],
+idea:'Пробой уровня, который тут же выкупили обратно, означает, что за уровнем не было покупателей — только стопы. После этого цена обычно идёт в противоположную сторону.',
+steps:['Отметь очевидный уровень (максимум дня, граница диапазона).','Дождись прокола уровня и <b>закрытия свечи обратно внутрь</b>.','Вход в сторону, обратную пробою, по закрытию этой свечи.'],
+entry:'Закрытие свечи обратно внутрь диапазона после прокола.',
+stop:'За экстремум прокола (очень короткий).',
+take:'Противоположная граница диапазона.',
+chart:{path:[44,70,46,72,84,60,44],n:46,vol:2.6,seed:64,
+ann:[{t:'h',p:72,l:'уровень',c:'r',solid:1},{t:'m',x:28,p:84,d:'dn',l:'stop hunt'},{t:'m',x:33,p:66,d:'up',l:'SELL по возврату'},{t:'h',p:44,l:'TARGET',c:'g'}],
+cap:'Цену вывели за уровень, чтобы собрать стопы покупателей и набрать шорт объёмом. Свеча закрылась обратно внутрь — сигнал. Стоп ставится за самую высокую точку прокола, поэтому риск очень мал, а цель — противоположный край диапазона.'},
+pros:['Минимальный стоп, часто R = 1:4 и выше','Очень частый паттерн на всех рынках','Работаешь заодно с крупным игроком'],
+cons:['Нужно отличать ложный пробой от настоящего — только по закрытию','Быстрые входы, нужна дисциплина','Ложный пробой ложного пробоя тоже бывает']},
+
+{en:'VWAP Reversion',ru:'Возврат к VWAP',tags:['Акции, фьючерсы','M1–M15','Внутри дня','Сложность: средняя'],
+idea:'VWAP — «справедливая цена дня» для институционалов. Резкое отклонение от неё часто выкупается обратно, особенно во второй половине сессии.',
+steps:['Нанеси VWAP и полосы стандартных отклонений (±1σ, ±2σ).','Дождись, пока цена уйдёт к ±2σ без фундаментальной причины.','Ищи затухание импульса: уменьшение свечей, падение объёма.','Вход в сторону VWAP.'],
+entry:'Разворотная свеча у полосы ±2σ.',
+stop:'За экстремум отклонения.',
+take:'Линия VWAP.',
+pros:['Прозрачная логика институционального ориентира','Много сетапов внутри дня','Чёткая цель — сама линия VWAP'],
+cons:['В трендовые дни цена идёт вдоль ±2σ и не возвращается','Нужны низкие комиссии','Требует постоянного присутствия у экрана']}
+]},
+
+{t:'h',v:'Внутридневные и пробойные'},
+{t:'strat',v:[
+{en:'Opening Range Breakout (ORB)',ru:'Пробой диапазона открытия',tags:['Акции, индексы, фьючерсы','M5–M15','Внутри дня','Сложность: низкая'],
+idea:'Первые 15–30 минут сессии задают диапазон дня. Выход за него на объёме часто продолжается движением до конца сессии.',
+steps:['Отметь High и Low первых 15 или 30 минут после открытия.','Выстави Buy Stop над High и Sell Stop под Low.','Сработала одна сторона — вторую сними.','Фильтр: пробой должен идти на объёме выше среднего.'],
+entry:'Пробой границы диапазона открытия.',
+stop:'Противоположная граница диапазона или её середина.',
+take:'1× или 2× ширины диапазона; часть — по трейлингу до закрытия сессии.',
+chart:{path:[50,58,50,57,72,68,86],n:40,vol:2.6,seed:29,vol_:true,
+ann:[{t:'box',x1:0,x2:12,p1:59,p2:49,l:'opening range 30 мин'},{t:'m',x:16,p:62,d:'dn',l:'BUY STOP'},{t:'h',p:49,l:'STOP',c:'r'},{t:'h',p:84,l:'TARGET 2R',c:'g'}],
+cap:'Диапазон первых 30 минут — это область, где рынок переваривает ночные новости. Пробой означает, что одна из сторон победила. Ключевой фильтр — объём: пробой без объёма чаще всего возвращается в диапазон.'},
+pros:['Строгие правила по времени, легко автоматизируется','Хорошо работает на US-акциях и индексах','Не нужно прогнозировать направление'],
+cons:['Много ложных пробоев в дни без новостей','Требует быть у экрана на открытии','На спокойных рынках диапазон весь день никуда не идёт']},
+
+{en:'London Breakout',ru:'Пробой азиатского диапазона',tags:['Forex','M15','Внутри дня','Сложность: низкая'],
+idea:'Азиатская сессия обычно узкая. С открытием Лондона приходит объём и часто выносит цену за границы этого диапазона.',
+steps:['Отметь High и Low азиатской сессии (примерно 00:00–07:00 UTC).','За 15 минут до открытия Лондона поставь отложенные ордера за обе границы.','Работай только на EURUSD, GBPUSD, EURJPY — там достаточно объёма.','Все позиции закрываются до открытия Нью-Йорка или по трейлингу.'],
+entry:'Пробой границы азиатского диапазона после 07:00 UTC.',
+stop:'Противоположная граница диапазона.',
+take:'1:1 или 1:2 от размера диапазона.',
+pros:['Чёткое расписание — 30 минут работы в день','Стабильно повторяющееся поведение рынка','Хорошо тестируется на истории'],
+cons:['В дни с широким азиатским диапазоном сетапа нет','Ложные выносы перед реальным движением','Нужен брокер с узким спредом на открытии']},
+
+{en:'Bollinger Squeeze Breakout',ru:'Пробой после сжатия волатильности',tags:['Все рынки','H1–D1','Пробойная','Сложность: низкая'],
+idea:'Волатильность циклична: длинное сжатие всегда сменяется расширением. Мы не угадываем направление, а торгуем факт выхода.',
+steps:['Найди период, когда полосы Боллинджера максимально узкие (ширина на минимуме за 100 баров).','Отметь границы сжатия.','Вход по закрытию свечи за границей сжатия.','Обязательное подтверждение — рост объёма и ATR.'],
+entry:'Закрытие за границей узкого диапазона.',
+stop:'Середина или противоположная граница сжатия.',
+take:'2 × ширина сжатия, дальше трейлинг.',
+pros:['Ловит самое начало сильных движений','Простой объективный фильтр — ширина полос','Работает на любом инструменте'],
+cons:['Первый выход часто ложный','Иногда сжатие длится неделями','Нужен фильтр по объёму, иначе много шума']},
+
+{en:'Gap and Go / Gap Fill',ru:'Торговля гэпов',tags:['Акции','M1–M15','Внутри дня','Сложность: средняя'],
+idea:'Два противоположных сценария. Гэп на сильной новости и большом объёме продолжается (Gap and Go). Гэп без причины на низком объёме закрывается (Gap Fill).',
+steps:['Утром отбери акции с гэпом более 4% и повышенным премаркет-объёмом.','Есть новость и объём в 5+ раз выше обычного → сценарий продолжения: вход по пробою максимума первых 5 минут.','Нет новости и объём слабый → сценарий закрытия: вход против гэпа с целью на вчерашнем закрытии.'],
+entry:'Пробой экстремума первых 5 минут (Go) или разворотная свеча (Fill).',
+stop:'Минимум первых 5 минут (Go) / за экстремум дня (Fill).',
+take:'Ближайший уровень или закрытие вчерашнего дня.',
+pros:['Огромная волатильность = быстрые движения','Много кандидатов каждый день','Понятный катализатор'],
+cons:['Огромное проскальзывание и широкие спреды','Нужен скринер и премаркет-доступ','Самая опасная зона для новичка']},
+
+{en:'Momentum / Relative Strength',ru:'Импульсная торговля',tags:['Акции, крипта','D1–W1','Свинг и позиционная','Сложность: низкая'],
+idea:'То, что растёт сильнее рынка, склонно продолжать расти. Ставим не на дешёвое, а на сильное.',
+steps:['Раз в неделю отбери инструменты, которые выросли сильнее индекса за 3 и 6 месяцев.','Из них оставь те, что торгуются вблизи 52-недельного максимума.','Вход по пробою максимума или на первом откате к EMA20.','Ребалансируй раз в месяц, выбрасывая ослабевшие.'],
+entry:'Пробой консолидации у 52-недельного максимума.',
+stop:'Под последней консолидацией или 2 × ATR.',
+take:'Держать, пока сила выше рынка; выход при потере импульса.',
+pros:['Один из самых подтверждённых исследованиями эффектов','Мало сделок, мало времени','Хорошо работает на длинных бычьих рынках'],
+cons:['Резкие развороты бьют больнее всего именно по импульсным бумагам','Плохо на медвежьем рынке','Нужен скринер']}
+]},
+
+{t:'h',v:'Smart Money / Order Flow'},
+{t:'strat',v:[
+{en:'Order Block Entry',ru:'Вход от ордер-блока',tags:['Forex, крипта, индексы','M15–H4','Свинг','Сложность: высокая'],
+idea:'Крупный игрок не может купить весь объём сразу. След его заявки — последняя противоположная свеча перед сильным импульсом. При возврате цены туда исполняется остаток заявки.',
+steps:['Найди мощный импульс, сломавший структуру (BOS).','Отметь последнюю красную свечу перед этим импульсом — это бычий ордер-блок.','Дождись возврата цены в зону блока.','Вход по реакции: пин-бар или поглощение внутри блока.'],
+entry:'Реакция цены внутри зоны ордер-блока.',
+stop:'За нижнюю границу блока.',
+take:'Ближайший пул ликвидности — предыдущий максимум.',
+chart:{path:[62,50,48,80,70,64,92],n:48,vol:2.8,seed:52,
+ann:[{t:'zone',p1:47,p2:53,k:'sup',l:'order block'},{t:'m',x:12,p:52,d:'dn',l:'импульс + BOS'},{t:'m',x:34,p:56,d:'dn',l:'возврат → ENTRY'},{t:'h',p:45,l:'STOP',c:'r'},{t:'h',p:90,l:'TARGET',c:'g'}],
+cap:'Импульс из зоны означает, что там был крупный покупатель. Когда цена возвращается, стратегия предполагает, что оставшаяся часть его заявки всё ещё стоит там. Вход в зоне даёт очень короткий стоп, а цель — ликвидность за предыдущим максимумом.'},
+pros:['Крайне выгодное соотношение риск/прибыль','Логика набора крупной позиции подтверждается на графике','Точные зоны входа'],
+cons:['Много субъективности в выборе «правильного» блока','Блоки часто пробивают насквозь','Легко подогнать разметку задним числом']},
+
+{en:'Liquidity Sweep Reversal',ru:'Разворот после съёма ликвидности',tags:['Forex, крипта','M5–H1','Внутри дня','Сложность: высокая'],
+idea:'За очевидными максимумами и минимумами стоят стопы. Цену специально ведут туда, чтобы набрать объём, после чего она резко разворачивается.',
+steps:['Отметь очевидную ликвидность: равные максимумы, минимум вчерашнего дня, максимум азиатской сессии.','Дождись быстрого прокола этого уровня.','Ищи немедленный возврат и слом структуры на младшем ТФ (CHoCH на M5).','Вход на ретесте зоны, откуда пошёл разворот.'],
+entry:'Ретест после CHoCH на младшем ТФ.',
+stop:'За экстремум прокола.',
+take:'Противоположный пул ликвидности.',
+pros:['Точки входа очень близко к экстремуму дня','R часто 1:5 и выше','Объясняет «нелогичные» движения рынка'],
+cons:['Требует быстрого исполнения и опыта','Прокол может стать настоящим пробоем','Нельзя торговать без подтверждения на младшем ТФ']},
+
+{en:'Fair Value Gap (FVG) Fill',ru:'Заполнение дисбаланса',tags:['Индексы, Forex, крипта','M5–H1','Внутри дня','Сложность: высокая'],
+idea:'Если цена прошла зону слишком быстро, там осталось мало исполненных заявок. Рынок стремится вернуться и «доторговать» эту область.',
+steps:['Найди три свечи, где тень первой и тень третьей не пересекаются — между ними FVG.','Отметь эту зону.','Торгуй возврат цены в зону в сторону основного тренда.','Вход по реакции внутри зоны.'],
+entry:'Реакция цены при первом касании зоны FVG.',
+stop:'За дальнюю границу зоны.',
+take:'Предыдущий экстремум импульса.',
+pros:['Даёт точные зоны там, где обычный график пуст','Хорошо сочетается с ордер-блоками','Отлично видно на индексах'],
+cons:['Часть гэпов не заполняется месяцами','Сильно зависит от таймфрейма','Много ложных срабатываний без фильтра тренда']},
+
+{en:'Supply and Demand Zones',ru:'Зоны спроса и предложения',tags:['Все рынки','H1–D1','Свинг','Сложность: средняя'],
+idea:'Ищем базы — узкие консолидации, из которых цена вышла резким импульсом. Это места, где дисбаланс заявок был максимальным.',
+steps:['Найди резкий импульс на графике.','Отметь узкую консолидацию, из которой он начался, — это зона.','Оцени качество: чем резче уход и чем свежее зона, тем лучше.','Вход лимитным ордером на границе зоны либо по подтверждению внутри неё.'],
+entry:'Первое касание свежей зоны.',
+stop:'За дальнюю границу зоны.',
+take:'Ближайшая противоположная зона.',
+pros:['Позволяет входить лимитом без сидения у экрана','Очень короткие стопы','Зоны хорошо видны на старших ТФ'],
+cons:['Каждое повторное касание ослабляет зону','Субъективность в разметке границ','Требует терпения — зона может не отработать неделями']}
+]},
+
+{t:'h',v:'Позиционные и системные подходы'},
+{t:'strat',v:[
+{en:'Swing Trading',ru:'Свинг-трейдинг',tags:['Акции, Forex, крипта','H4–D1','Дни и недели','Сложность: средняя'],
+idea:'Ловим одно движение между значимыми уровнями и держим от 2 дней до 3 недель. Оптимальный формат для человека с работой.',
+steps:['Раз в неделю на D1 размечай уровни и тренд по 5–10 инструментам.','Ставь оповещения на подход цены к уровню.','Проверяй график 1–2 раза в день, на закрытии свечи.','Вход по подтверждённому сетапу, дальше не трогай позицию.'],
+entry:'Любой из сетапов выше на D1/H4.',
+stop:'За структурный уровень, обычно 1.5–2 × ATR(14) дневного.',
+take:'Следующий крупный уровень, минимум 1:2.',
+pros:['Не требует сидеть у экрана','Меньше комиссий и меньше шума','Спокойные решения на закрытии свечи'],
+cons:['Свопы за перенос через ночь','Гэпы через выходные','Мало сделок — трудно набрать опыт быстро']},
+
+{en:'Position Trading',ru:'Позиционная торговля',tags:['Акции, индексы, товары','W1–MN','Месяцы','Сложность: низкая'],
+idea:'Торговля крупными циклами: вход по фундаментальной и технической картине, удержание месяцами, стоп очень широкий.',
+steps:['Определи макро-контекст: ставки, цикл экономики, отчётность.','На W1 найди подтверждение тренда (цена выше SMA200).','Вход на откате к недельной поддержке.','Пересматривай позицию раз в месяц.'],
+entry:'Откат к структурной поддержке на недельном графике.',
+stop:'Под многолетний уровень, широкий.',
+take:'Цель по фундаменталу или трейлинг по недельной EMA20.',
+pros:['Минимум сделок и комиссий','Сильно снижает влияние эмоций','Даёт эффект сложного процента'],
+cons:['Деньги заморожены надолго','Нужен большой капитал, чтобы результат ощущался','Требует широкого стопа и терпимости к просадке']},
+
+{en:'Pairs Trading (Statistical Arbitrage)',ru:'Парный трейдинг',tags:['Акции, крипта','D1','Маркет-нейтральная','Сложность: высокая'],
+idea:'Берём два коррелирующих инструмента. Когда их спред расходится сильнее обычного, покупаем отстающий и шортим опережающий, ожидая схождения.',
+steps:['Найди пару с исторической корреляцией выше 0.8 (например, две нефтяные компании).','Считай спред и его z-score.','Расхождение z > 2 → лонг слабого, шорт сильного.','Выход при возврате z к нулю.'],
+entry:'z-score спреда выше 2 или ниже −2.',
+stop:'z-score выше 3 — корреляция сломалась.',
+take:'Возврат спреда к среднему.',
+pros:['Не зависит от направления всего рынка','Стабильная статистическая логика','Низкая корреляция с остальным портфелем'],
+cons:['Нужны расчёты и данные, вручную неудобно','Корреляции ломаются без предупреждения','Двойные комиссии и требования к марже']},
+
+{en:'Carry Trade',ru:'Кэрри-трейд',tags:['Forex','MN','Долгосрочная','Сложность: средняя'],
+idea:'Покупаем валюту с высокой ставкой против валюты с низкой и получаем положительный своп каждый день, плюс потенциальный рост курса.',
+steps:['Сравни ключевые ставки центробанков.','Проверь у брокера, что своп по паре действительно положительный.','Входи только по направлению долгосрочного тренда.','Размер позиции маленький: держать придётся месяцами.'],
+entry:'Откат в направлении долгосрочного тренда.',
+stop:'Очень широкий, за многомесячный уровень.',
+take:'Нет — доход идёт от свопа и тренда.',
+pros:['Пассивный доход от разницы ставок','Работает годами в стабильных циклах','Мало действий'],
+cons:['Обвал carry-пар происходит мгновенно и глубоко','Смена политики ЦБ убивает всю идею','Своп у розничного брокера часто хуже рыночного']},
+
+{en:'News Trading',ru:'Торговля на новостях',tags:['Forex, индексы','M1–M15','Событийная','Сложность: высокая'],
+idea:'Работа вокруг публикации макроданных: NFP, CPI, решения ФРС. Торгуется не сама новость, а реакция рынка на отклонение от прогноза.',
+steps:['Проверь экономический календарь и отметь события высокой важности.','Не входи до выхода данных.','Дождись первой волны и её отката.','Вход по направлению закрепления цены после отката, стоп за экстремум первой волны.'],
+entry:'После первой реакции, по закреплению направления.',
+stop:'За экстремум импульсной свечи.',
+take:'Ближайший уровень; фиксировать быстро.',
+pros:['Огромное движение за короткое время','Понятный катализатор и время','Хорошо для опытных скальперов'],
+cons:['Проскальзывание и расширение спреда в разы','Стопы часто не исполняются по цене','Для новичка — самый быстрый способ потерять депозит']},
+
+{en:'Scalping',ru:'Скальпинг',tags:['Фьючерсы, крипта','M1 и тиковый','Секунды-минуты','Сложность: очень высокая'],
+idea:'Множество мелких сделок по 5–15 пунктов, работа со стаканом и лентой. Прибыль строится на большом количестве повторений и низких издержках.',
+steps:['Выбери один ликвидный инструмент и изучи его характер.','Смотри стакан (DOM) и ленту сделок, а не индикаторы.','Вход у крупной плиты, стоп сразу за ней.','Жёсткий дневной лимит убытка — 2 сделки подряд в минус, стоп на день.'],
+entry:'Реакция на крупную лимитную заявку или на поглощение в ленте.',
+stop:'Несколько тиков за заявку.',
+take:'1–2 R, фиксировать быстро.',
+pros:['Быстрая обратная связь и много опыта за день','Минимальный рыночный риск на позицию','Не зависит от новостей и ночных гэпов'],
+cons:['Комиссии съедают большую часть результата','Огромная нагрузка на внимание, выгорание','Требуется дорогая инфраструктура и быстрый доступ']},
+
+{en:'Dollar Cost Averaging (DCA)',ru:'Усреднение по времени',tags:['Акции, индексы, BTC','MN','Инвестиции','Сложность: минимальная'],
+idea:'Покупать фиксированную сумму через равные промежутки времени независимо от цены. Не трейдинг, но лучший фон для трейдинга.',
+steps:['Выбери широкий индексный инструмент.','Определи сумму и день покупки.','Покупай механически, без анализа графика.','Не продавай на просадках — в этом весь смысл.'],
+entry:'По расписанию, а не по сигналу.',
+stop:'Нет.',
+take:'Горизонт 5–10 лет.',
+pros:['Убирает эмоции и попытки угадать дно','Исторически обыгрывает большинство активных трейдеров','Требует 10 минут в месяц'],
+cons:['Не даёт быстрого результата','Не спасает от долгих медвежьих рынков','Скучно, поэтому люди бросают']},
+
+{en:'Grid &amp; Martingale',ru:'Сетка и мартингейл',tags:['Forex','Любой','Опасная','Сложность: обманчиво простая'],
+idea:'Сетка ордеров через равные интервалы; мартингейл дополнительно удваивает объём на каждом убытке. Показывает красивую кривую доходности — до одного дня.',
+steps:['<b>Не используй это как основную систему.</b> Раздел здесь для того, чтобы ты понимал механику.','Сетка сама по себе допустима в чистом флэте, при маленьком объёме и жёстком общем стопе.','Мартингейл математически ведёт к разорению при достаточной длине тренда: восемь удвоений подряд — это ×256 объёма.'],
+entry:'Ордера через фиксированный шаг.',
+stop:'Обязателен общий стоп на всю сетку в деньгах — без него система гарантированно убивает счёт.',
+take:'Небольшая суммарная прибыль по сетке.',
+pros:['Долго показывает высокий процент прибыльных сделок','Работает в узком боковике'],
+cons:['Один тренд обнуляет счёт полностью','Соотношение риск/прибыль ужасное: рискуешь всем ради малого','Почти все «грааль-советники» из интернета построены именно на этом']}
+]},
+{t:'note',k:'ok',h:'Что общего у всех рабочих стратегий',v:'1) Есть <b>условие входа, которое можно проверить</b> на скриншоте. 2) Есть <b>точка, где идея признаётся ошибочной</b> — там и стоит стоп. 3) Потенциальная прибыль больше риска. 4) Правила не меняются посреди сделки. Если хотя бы один пункт отсутствует — это не стратегия, а импровизация.'}
+]});
+SECTIONS.push({id:'risk',n:'10',ttl:'Риск-менеджмент',sub:'Математика, которая решает всё',b:[
+{t:'p',v:'Стратегия отвечает на вопрос «где входить». Риск-менеджмент отвечает на вопрос «сколько», и именно он определяет, доживёшь ли ты до момента, когда стратегия начнёт работать. <b>Прибыльную систему можно обнулить неправильным размером позиции. Убыточную нельзя спасти никаким риском.</b>'},
+{t:'h',v:'Ключевые понятия'},
+{t:'terms',v:[
+['Risk per trade','Риск на сделку','Сколько денег ты теряешь, если сработает стоп. Стандарт — 1% от счёта, для новичка 0.5%.','Счёт $2 000, риск 1% → максимум $20 убытка в сделке.'],
+['Position size','Размер позиции','Считается из риска, а не из желания. Объём = Риск в деньгах ÷ (Размер стопа × Стоимость пункта).','Риск $20, стоп 40 пунктов, $1 за пункт при 0.1 лота → объём 0.05 лота.'],
+['R-multiple','R-мультипликатор','Результат сделки, измеренный в единицах риска. Заработал втрое больше, чем рисковал → +3R.','Думай в R, а не в долларах: так решения не зависят от размера счёта.'],
+['Risk/Reward (RR)','Риск к прибыли','Отношение потенциальной прибыли к потенциальному убытку. Минимум 1:2 для большинства систем.','Стоп 30 пунктов, цель 90 → RR 1:3.'],
+['Win rate','Процент прибыльных сделок','Доля прибыльных сделок. Сам по себе ничего не значит без RR.','Win rate 40% при RR 1:3 — очень прибыльная система.'],
+['Expectancy','Математическое ожидание','Средний результат одной сделки: (Win% × средняя прибыль) − (Loss% × средний убыток). Должно быть положительным.','0.4×3R − 0.6×1R = +0.6R на сделку.'],
+['Max drawdown','Максимальная просадка','Самое глубокое падение счёта от пика. Главный показатель риска системы.','Просадка 50% требует +100% прибыли, чтобы вернуться.'],
+['Exposure','Совокупный риск','Суммарный риск по всем открытым позициям. Не должен превышать 3–5% счёта.','Три сделки по 1% = 3% exposure.'],
+['Correlation risk','Риск корреляции','EURUSD, GBPUSD и AUDUSD — по сути одна ставка против доллара. Три «разные» сделки могут оказаться утроенным риском.','Проверяй корреляции перед набором позиций.'],
+['Break-even stop','Стоп в безубыток','Перенос стопа на цену входа после прохождения части пути. Убирает риск, но повышает шанс вылета на шуме.','Переносить лучше после 1R, а не сразу.'],
+['Partial close','Частичная фиксация','Закрытие части позиции на первой цели, остаток — с трейлингом.','50% на 1:2, остальное ведём.'],
+['Kelly criterion','Критерий Келли','Формула оптимальной доли ставки. На практике трейдеры используют 1/4 или 1/10 от Келли — полная формула даёт слишком дикие просадки.','Даже «математически оптимально» бывает психологически невыносимо.']
+]},
+{t:'h',v:'Формула размера позиции'},
+{t:'note',k:'ok',h:'Считай это перед каждой сделкой',v:'<b>Объём = (Депозит × Риск%) ÷ (Стоп в пунктах × Стоимость пункта)</b><br>Пример: депозит $3 000, риск 1% = $30. Стоп 50 пунктов. Стоимость пункта при 0.1 лота EURUSD = $1. Значит: 30 ÷ (50 × 1) = 0.6 → объём 0.06 лота. Стоп определяет объём, а не наоборот. Если стоп «слишком большой», уменьшается объём, а не стоп.'},
+{t:'h',v:'Почему просадка убивает: несимметричная математика'},
+{t:'table',v:{head:['Просадка','Нужно заработать, чтобы вернуться','Реалистичность'],rows:[
+['−5%','+5.3%','Обычная рабочая ситуация'],
+['−10%','+11.1%','Норма, часть процесса'],
+['−20%','+25%','Уже тревожно, пересмотри систему'],
+['−30%','+42.9%','Серьёзная проблема'],
+['−50%','<b>+100%</b>','Год работы на восстановление'],
+['−70%','<b>+233%</b>','Практически невозвратно'],
+['−90%','<b>+900%</b>','Счёт мёртв']]}},
+{t:'p',v:'Отсюда главное правило: <b>защита от большого убытка важнее поиска большой прибыли</b>. При риске 1% на сделку десять убытков подряд стоят около 10% счёта — неприятно, но восстановимо. При риске 10% те же десять сделок оставляют от депозита треть.'},
+{t:'h',v:'Дисциплина в цифрах'},
+{t:'check',v:[
+'Риск на сделку не больше 1% (новичку 0.5%)',
+'Суммарный риск по открытым позициям не больше 3%',
+'Дневной лимит убытка: 3% — после этого терминал закрыт до завтра',
+'Недельный лимит убытка: 6%',
+'Минимальное соотношение риск/прибыль: 1:2',
+'Не более 2 коррелирующих позиций одновременно',
+'Стоп ставится ДО входа и не двигается в сторону убытка — никогда',
+'Не усредняю убыточную позицию',
+'После трёх убытков подряд — пауза на день и разбор журнала'
+]},
+{t:'note',k:'warn',h:'Одно правило, которое нарушают все',v:'«Передвину стоп чуть-чуть, цена же вот-вот развернётся». Именно это движение превращает нормальный убыток в −20% депозита. Стоп двигается <b>только в сторону прибыли</b>. Это не рекомендация, а условие выживания.'}
+]});
+
+SECTIONS.push({id:'psy',n:'11',ttl:'Психология',sub:'Почему знания не превращаются в результат',b:[
+{t:'p',v:'Ты можешь знать всю теорию и всё равно терять деньги — потому что решения принимаются не в спокойствии, а под давлением денег и неопределённости. Ниже — типовые состояния и конкретные противоядия.'},
+{t:'terms',v:[
+['FOMO','Страх упустить','Цена уехала без тебя, и ты запрыгиваешь на вершине импульса без сетапа. Почти всегда вход в худшей точке.','Противоядие: правило «нет сетапа — нет сделки». Пропущенная сделка не стоит ничего.'],
+['Revenge trading','Торговля на отыгрыш','После убытка хочется немедленно вернуть деньги, объём растёт, правила исчезают.','Противоядие: жёсткий дневной лимит убытка и физический выход из-за компьютера.'],
+['Overtrading','Перебор сделок','Слишком много сделок от скуки или желания «работать». Комиссии и мелкие убытки съедают счёт.','Противоядие: лимит 2–3 сделки в день, запись причины каждой сделки до входа.'],
+['Tilt','Тильт','Эмоциональный срыв, когда контроль потерян полностью. Термин из покера.','Противоядие: распознать физические признаки — участившийся пульс, жар, — и закрыть терминал.'],
+['Loss aversion','Неприятие потерь','Убыток ощущается примерно вдвое сильнее равной прибыли. Поэтому люди режут прибыль рано и держат убытки долго.','Противоядие: заранее записанные TP и SL, и запрет на ручное вмешательство.'],
+['Confirmation bias','Предвзятость подтверждения','Ищешь только те сигналы, которые подтверждают уже принятое решение.','Противоядие: перед входом сформулируй, что докажет твою неправоту.'],
+['Recency bias','Эффект недавнего','Последние 3 сделки кажутся важнее статистики за 300.','Противоядие: смотреть на результаты только сериями по 20+ сделок.'],
+['Analysis paralysis','Паралич анализа','Десять индикаторов, пять таймфреймов и ни одной сделки.','Противоядие: чек-лист из 5 пунктов, максимум. Всё, что не в нём, не учитывается.'],
+['Sunk cost fallacy','Ошибка невозвратных затрат','«Я слишком долго держу эту позицию, чтобы закрыть в минус».','Противоядие: спрашивай себя — «открыл бы я эту сделку прямо сейчас?». Если нет — закрывай.'],
+['Discipline','Дисциплина','Способность выполнять правила, когда не хочется. Единственный навык, который отличает прибыльного трейдера.','Противоядие: не мотивация, а система — чек-листы, лимиты и журнал.']
+]},
+{t:'h',v:'Рабочий ритуал одной сделки'},
+{t:'ol',v:[
+'Проверить календарь новостей: есть красное событие через час — сделки нет.',
+'Определить тренд на старшем ТФ и записать bias одним словом: лонг / шорт / нет.',
+'Найти уровень или зону. Если приходится присматриваться — сетапа нет.',
+'Дождаться триггера — сигнальной свечи, а не предчувствия.',
+'Посчитать объём по формуле риска. Записать вход, стоп и цель <b>до</b> открытия.',
+'Открыть сделку и убрать руки с мыши.',
+'После закрытия — скриншот и одна строка в журнал: что сделал правильно, что нарушил.'
+]},
+{t:'note',h:'Главный сдвиг мышления',v:'Одна сделка ничего не значит. Ты играешь не сделку, а <b>серию из 100 сделок</b>. Как казино не переживает из-за одного выигравшего игрока, так и трейдер с положительным ожиданием не переживает из-за одного убытка. Убыток по правилам — это правильная сделка. Прибыль с нарушением правил — это неправильная сделка, даже если она принесла деньги.'}
+]});
+
+SECTIONS.push({id:'fund',n:'12',ttl:'Фундаментальный анализ',sub:'Что реально двигает цену',b:[
+{t:'p',v:'Технический анализ показывает <b>где</b> и <b>когда</b>. Фундаментальный — <b>почему</b>. Даже чистому технарю нужно знать календарь: 90% резких движений происходит вокруг конкретных событий.'},
+{t:'h',v:'Макроэкономика и валюты'},
+{t:'terms',v:[
+['Interest rate','Процентная ставка','Главный драйвер валютного рынка. Рост ставки обычно укрепляет валюту: капитал идёт туда, где доходность выше.','Решения ФРС (FOMC), ЕЦБ, Банка Англии — события максимальной важности.'],
+['CPI (Inflation)','Инфляция','Рост цен. Высокая инфляция вынуждает ЦБ поднимать ставку — валюта растёт, акции обычно падают.','Публикация CPI США двигает весь рынок на минуты.'],
+['NFP (Non-Farm Payrolls)','Занятость в США','Ежемесячные данные по рабочим местам вне сельского хозяйства, первая пятница месяца. Самая волатильная новость на Forex.','Отклонение от прогноза на 100k+ даёт движение в сотни пунктов.'],
+['GDP','ВВП','Общий размер экономики. Смотрят на темп роста относительно прогноза.','Замедление ВВП — сигнал к снижению ставок.'],
+['FOMC','Заседание ФРС','Комитет, определяющий ставку в США. Важнее самой ставки часто оказывается тон заявления и прогноз (dot plot).','Хawkish — жёсткий тон, доллар вверх; dovish — мягкий, доллар вниз.'],
+['Unemployment rate','Безработица','Обратный индикатор здоровья экономики.','Рост безработицы обычно ослабляет валюту.'],
+['PMI','Индекс деловой активности','Опрос закупщиков. Выше 50 — рост, ниже 50 — спад. Опережающий индикатор.','PMI ниже 50 два квартала подряд — сигнал рецессии.'],
+['Risk-on / Risk-off','Аппетит к риску','Risk-on: растут акции и сырьевые валюты. Risk-off: капитал бежит в доллар, иену, франк, золото и облигации.','Геополитический кризис = классический risk-off.'],
+['Yield / Bonds','Доходность облигаций','Доходность 10-летних госбумаг США — главный ориентир для всех рынков.','Резкий рост доходностей обычно давит на акции роста.'],
+['COT report','Отчёт по позициям','Еженедельные данные CFTC о позициях крупных участников на фьючерсах.','Экстремальные значения часто предшествуют развороту.']
+]},
+{t:'h',v:'Акции и компании'},
+{t:'terms',v:[
+['Earnings report','Квартальный отчёт','Выручка, прибыль и прогноз. Реакция акции зависит не от абсолютных цифр, а от отклонения от ожиданий аналитиков.','Отчёт лучше прогноза, но акция падает — значит, ждали ещё лучше.'],
+['EPS','Прибыль на акцию','Чистая прибыль, делённая на количество акций.','Главная цифра, которую сравнивают с консенсусом.'],
+['P/E ratio','Цена к прибыли','Сколько инвестор платит за $1 прибыли. Высокий P/E — ожидания быстрого роста.','P/E 15 против P/E 60 — разные типы бизнеса и рисков.'],
+['Market cap','Капитализация','Цена акции × количество акций. Делит компании на large/mid/small cap.','Small cap волатильнее и менее ликвиден.'],
+['Dividend','Дивиденды','Часть прибыли, выплачиваемая акционерам. В дату отсечки цена падает примерно на размер выплаты.','Дивидендный гэп — не сигнал разворота.'],
+['Guidance','Прогноз компании','Ожидания менеджмента на следующий квартал. Часто важнее самого отчёта.','Снижение guidance обрушивает акцию даже при хорошем квартале.'],
+['Buyback','Обратный выкуп','Компания скупает свои акции, снижая их количество и поддерживая цену.','Крупные buyback-программы — фактор долгосрочной поддержки.'],
+['Short interest','Доля шортов','Сколько акций продано в шорт. Высокое значение может привести к <span class="en">short squeeze</span>.','Резкий рост на выносе шортистов — классический сценарий.']
+]},
+{t:'h',v:'Крипта'},
+{t:'terms',v:[
+['Halving','Халвинг','Двукратное сокращение эмиссии биткоина примерно раз в 4 года. Исторически предшествовал бычьим циклам.','Событие известно заранее, поэтому частично заложено в цену.'],
+['On-chain data','Ончейн-данные','Метрики блокчейна: приток монет на биржи, активные адреса, движение «старых» монет.','Большой приток BTC на биржи — потенциальное давление продавцов.'],
+['Funding rate','Ставка финансирования','Платёж между лонгами и шортами на вечных фьючерсах. Экстремально высокая ставка = толпа в лонгах.','Часто предшествует каскадным ликвидациям.'],
+['Liquidation','Ликвидация','Принудительное закрытие позиции с плечом. Массовые ликвидации создают резкие свечи.','Карты ликвидаций показывают, куда рынок «притягивает».'],
+['Stablecoin','Стейблкоин','Токен, привязанный к доллару: USDT, USDC. Основная торговая валюта крипторынка.','Рост капитализации стейблкоинов = приток денег на рынок.']
+]},
+{t:'note',k:'warn',h:'Как использовать календарь',v:'Открой экономический календарь и отфильтруй события высокой важности по своим инструментам. Правило простое: <b>не открывать новых позиций за 30 минут до и 15 минут после красной новости</b>. Спред расширяется, стопы исполняются с проскальзыванием, а движение часто разворачивается дважды.'}
+]});
+
+SECTIONS.push({id:'test',n:'13',ttl:'Тестирование и план',sub:'Как превратить знания в систему',b:[
+{t:'h',v:'Проверка стратегии'},
+{t:'terms',v:[
+['Backtest','Тестирование на истории','Прокрутка стратегии по прошлым данным вручную или на роботе. Минимум 100 сделок, лучше 200+.','Ручной бэктест на TradingView с перемоткой бара — лучшее упражнение новичка.'],
+['Forward test / Paper trading','Тест в реальном времени','Торговля по сигналам без денег или на демо. Проверяет не только систему, но и твою дисциплину.','Минимум 30 дней в реальном ритме рынка.'],
+['Overfitting','Переоптимизация','Подгонка параметров под конкретный кусок истории. На реальном рынке такая система разваливается сразу.','Признак: 12 фильтров и идеальная кривая — значит, подогнано.'],
+['Profit factor','Профит-фактор','Сумма прибылей делённая на сумму убытков. Выше 1.5 — хорошая система.','PF 1.0 — работа в ноль без учёта комиссий.'],
+['Sharpe ratio','Коэффициент Шарпа','Доходность с поправкой на волатильность. Выше 1 — приемлемо, выше 2 — отлично.','Позволяет сравнивать разные системы честно.'],
+['Sample size','Размер выборки','20 сделок не доказывают ничего. Статистически значимая оценка начинается примерно со 100.','Не меняй стратегию из-за 5 убытков подряд.'],
+['Trading journal','Журнал сделок','Таблица со всеми сделками, скриншотами и причинами входа. Единственный способ увидеть свои реальные ошибки.','Без журнала ты каждый месяц повторяешь одну и ту же ошибку.'],
+['Trading plan','Торговый план','Письменный документ: что торгую, когда, по каким правилам, с каким риском и когда останавливаюсь.','Если план не записан — его не существует.']
+]},
+{t:'h',v:'Что писать в журнал по каждой сделке'},
+{t:'table',v:{head:['Поле','Пример'],rows:[
+['Дата и время','2026-03-14, 11:20'],
+['Инструмент и ТФ','EURUSD, H1'],
+['Стратегия','Break &amp; Retest'],
+['Направление','Long'],
+['Вход / стоп / цель','1.0842 / 1.0812 / 1.0932'],
+['Риск в % и в R','1% · цель 3R'],
+['Скриншот до входа','обязательно'],
+['Результат','+2.4R'],
+['Соблюдены ли правила','<b>да / нет</b> — самая важная колонка'],
+['Ошибка и вывод','вошёл до закрытия свечи, повезло. Не считать удачу навыком']]}},
+{t:'h',v:'План на первые 30 дней'},
+{t:'ol',v:[
+'<b>Дни 1–5.</b> Разделы 02–04. Открой TradingView, добавь 5 инструментов. Каждый день 30 минут просто смотри график и вслух называй: тренд, флэт, уровень.',
+'<b>Дни 6–12.</b> Разделы 05–07. Размечай уровни и структуру на 3 графиках в день. Скриншоты сохраняй в папку.',
+'<b>Дни 13–17.</b> Раздел 08. Выбери один трендовый индикатор и один осциллятор. Остальные удали с графика.',
+'<b>Дни 18–22.</b> Раздел 09. Выбери ОДНУ стратегию. Выпиши её правила на бумагу в 5 пунктов.',
+'<b>Дни 23–27.</b> Ручной бэктест: перемотай историю и найди 50 сетапов по своим правилам. Запиши результат каждого в R.',
+'<b>Дни 28–30.</b> Раздел 10. Посчитай ожидание своей системы. Отрицательное — меняй правила, а не размер счёта. Положительное — открывай демо и торгуй 100 сделок с журналом.'
+]},
+{t:'note',k:'ok',h:'Признак готовности к реальным деньгам',v:'Не «я заработал на демо», а: <b>100 сделок подряд по правилам, положительное ожидание и максимум 3 нарушения дисциплины</b>. Тогда переходи на реальный счёт с минимальным размером — эмоции от реальных денег придётся проходить заново, и лучше делать это при риске $2 за сделку, а не $200.'},
+{t:'h',v:'Финальный чек-лист перед каждым входом'},
+{t:'check',v:[
+'Тренд на старшем ТФ определён и вход по нему',
+'Цена находится на значимом уровне или в зоне, а не в пустоте',
+'Есть подтверждающая свеча — сетап закрыт, а не «формируется»',
+'Стоп имеет логичное место, а не «удобный» размер',
+'Соотношение риск/прибыль минимум 1:2',
+'Объём посчитан по формуле, риск не больше 1%',
+'Нет важных новостей в ближайший час',
+'Я спокоен: не отыгрываюсь, не спешу, не боюсь опоздать'
+]}
+]});
+SECTIONS.push({id:'gloss',n:'14',ttl:'Глоссарий A–Z',sub:'Все термины одним списком, с фильтром по букве',b:[
+{t:'p',v:'Быстрый справочник: английский термин — русское название — короткое объяснение. Пользуйся буквами ниже или поиском наверху страницы.'},
+{t:'abc'},
+{t:'gloss',v:[
+['Account','Счёт','Торговый счёт у брокера или биржи со своим балансом и плечом.'],
+['Algo trading','Алгоритмическая торговля','Исполнение сделок по программе без участия человека.'],
+['All-time high (ATH)','Исторический максимум','Самая высокая цена за всю историю инструмента.'],
+['Arbitrage','Арбитраж','Заработок на разнице цен одного актива на разных площадках.'],
+['Ask','Аск, цена продавца','Цена, по которой ты покупаешь. Всегда выше bid.'],
+['ATR','Средний истинный диапазон','Индикатор волатильности; база для расчёта стопов.'],
+['Backtest','Бэктест','Проверка стратегии на исторических данных.'],
+['Bagholder','Держатель убытка','Тот, кто держит сильно упавший актив, надеясь на возврат.'],
+['Basis point (bp)','Базисный пункт','0.01%. Ставку подняли на 25 bp — значит на 0.25%.'],
+['Bear market','Медвежий рынок','Падение более 20% от максимума и общий пессимизм.'],
+['Bid','Бид, цена покупателя','Цена, по которой ты продаёшь.'],
+['Blue chip','Голубая фишка','Крупная надёжная компания с высокой ликвидностью.'],
+['BOS','Слом структуры','Пробой значимого экстремума, подтверждающий тренд.'],
+['Breakeven','Безубыток','Уровень входа; сделка не приносит ни прибыли, ни убытка.'],
+['Breakout','Пробой','Выход цены за границу уровня или диапазона.'],
+['Bull market','Бычий рынок','Устойчивый рост и оптимизм участников.'],
+['Buy limit','Лимит на покупку','Отложенная покупка ниже текущей цены.'],
+['Buy stop','Стоп на покупку','Отложенная покупка выше текущей цены, вход по пробою.'],
+['Candlestick','Японская свеча','Формат отображения OHLC за период.'],
+['Capitulation','Капитуляция','Массовая паническая распродажа, часто у самого дна.'],
+['CFD','Контракт на разницу','Производный инструмент без владения активом.'],
+['CHoCH','Смена характера','Первый пробой структуры против тренда.'],
+['Churn','Перебор оборота','Избыточное количество сделок, съедающее счёт комиссиями.'],
+['Consolidation','Консолидация','Узкий боковик, сжатие перед движением.'],
+['Contango','Контанго','Фьючерс дороже спота; типично для нефти и товаров.'],
+['Correction','Коррекция','Откат против основного тренда, обычно 5–20%.'],
+['Correlation','Корреляция','Мера того, насколько два актива двигаются вместе.'],
+['COT','Отчёт по обязательствам','Данные CFTC о позициях крупных участников.'],
+['Cross pair','Кросс-курс','Валютная пара без доллара, например EURGBP.'],
+['Day trading','Внутридневная торговля','Все позиции закрываются до конца дня.'],
+['Dead cat bounce','Отскок дохлой кошки','Короткий отскок внутри сильного падения.'],
+['Death cross','Крест смерти','EMA50 пересекает EMA200 сверху вниз.'],
+['Delta','Дельта','Разница между агрессивными покупками и продажами; в опционах — чувствительность к цене.'],
+['Demand zone','Зона спроса','Область, откуда цена ушла резким ростом.'],
+['Divergence','Дивергенция','Расхождение динамики цены и индикатора.'],
+['DOM','Стакан заявок','Глубина рынка по ценовым уровням.'],
+['Doji','Доджи','Свеча с крошечным телом; равновесие сил.'],
+['Drawdown','Просадка','Падение счёта от достигнутого пика.'],
+['ECN','ECN-счёт','Прямой вывод заявок на поставщиков ликвидности, узкий спред плюс комиссия.'],
+['Edge','Преимущество','Статистическое превосходство системы над случайностью.'],
+['EMA','Экспоненциальная средняя','Скользящая средняя с приоритетом свежих цен.'],
+['Equity','Средства','Баланс с учётом плавающего результата.'],
+['Equity curve','Кривая доходности','График изменения счёта во времени.'],
+['Execution','Исполнение','Процесс заключения сделки на бирже или у брокера.'],
+['Expiration','Экспирация','Дата истечения фьючерса или опциона.'],
+['Exposure','Экспозиция','Совокупный размер риска по открытым позициям.'],
+['Fakeout','Ложный пробой','Выход за уровень с быстрым возвратом обратно.'],
+['Fibonacci','Фибоначчи','Уровни коррекции 23.6 / 38.2 / 50 / 61.8 / 78.6%.'],
+['Fill','Исполнение заявки','Факт совершения сделки; partial fill — частичное.'],
+['Flash crash','Мгновенный обвал','Резкое обрушение цены за секунды с быстрым восстановлением.'],
+['Float','Фри-флоат','Количество акций в свободном обращении.'],
+['FOMO','Страх упустить','Импульсивный вход вслед за уехавшей ценой.'],
+['Forex','Валютный рынок','Внебиржевой рынок обмена валют.'],
+['Funding rate','Ставка финансирования','Периодический платёж между лонгами и шортами на перпетуалах.'],
+['Futures','Фьючерс','Стандартизированный контракт с датой исполнения.'],
+['FVG','Дисбаланс','Незакрытый разрыв между тенями трёх свечей.'],
+['Gap','Гэп','Разрыв между закрытием и следующим открытием.'],
+['Golden cross','Золотой крест','EMA50 пересекает EMA200 снизу вверх.'],
+['Hedge','Хедж','Открытие позиции для компенсации риска другой позиции.'],
+['HH / HL','Высшие максимум и минимум','Структурные точки восходящего тренда.'],
+['Illiquid','Неликвидный','Инструмент с малым объёмом и широким спредом.'],
+['Impulse','Импульс','Быстрое направленное движение цены.'],
+['Index','Индекс','Корзина активов как единый инструмент.'],
+['Inside bar','Внутренний бар','Свеча внутри диапазона предыдущей.'],
+['Institutional','Институционалы','Крупные профессиональные участники рынка.'],
+['Leverage','Плечо','Заёмные средства, умножающие и прибыль, и убыток.'],
+['Limit order','Лимитный ордер','Исполняется по заданной цене или лучше.'],
+['Liquidation','Ликвидация','Принудительное закрытие позиции при нехватке маржи.'],
+['Liquidity','Ликвидность','Объём, доступный без сдвига цены; также скопление стопов.'],
+['Long','Лонг','Позиция в расчёте на рост.'],
+['Lot','Лот','Единица объёма позиции.'],
+['MACD','Схождение-расхождение','Индикатор импульса на двух EMA.'],
+['Margin','Маржа','Залог под открытую позицию.'],
+['Margin call','Маржин-колл','Требование пополнить счёт при нехватке маржи.'],
+['Market maker','Маркетмейкер','Поставщик ликвидности, держит и bid, и ask.'],
+['Market order','Рыночный ордер','Немедленное исполнение по текущей цене.'],
+['Mean reversion','Возврат к среднему','Идея, что отклонение от среднего будет выкуплено.'],
+['Momentum','Импульс, моментум','Тенденция сильных активов оставаться сильными.'],
+['Moving average','Скользящая средняя','Сглаженная средняя цена за период.'],
+['Naked chart','Чистый график','График без единого индикатора; только цена.'],
+['NFP','Занятость в США','Ключевая ежемесячная макростатистика.'],
+['OB','Ордер-блок','Последняя противоположная свеча перед импульсом.'],
+['OCO','Один отменяет другой','Связанная пара ордеров.'],
+['OHLC','Открытие, максимум, минимум, закрытие','Четыре цены, описывающие период.'],
+['Order book','Стакан','Список лимитных заявок по уровням.'],
+['Oscillator','Осциллятор','Индикатор в ограниченном диапазоне значений.'],
+['Overbought','Перекупленность','Состояние после сильного роста; не сигнал шорта сам по себе.'],
+['Oversold','Перепроданность','Состояние после сильного падения.'],
+['Overtrading','Перебор сделок','Торговля ради процесса, а не по сигналам.'],
+['Paper trading','Бумажная торговля','Торговля без реальных денег.'],
+['Pip','Пункт','Минимальный шаг цены на Forex.'],
+['Pivot point','Пивот','Расчётный уровень поддержки или сопротивления дня.'],
+['P&amp;L','Прибыль и убыток','Финансовый результат по сделке или счёту.'],
+['POC','Точка контроля','Ценовой уровень с максимальным объёмом торгов.'],
+['Position sizing','Расчёт объёма','Определение размера позиции исходя из риска.'],
+['Premarket','Премаркет','Торги до официального открытия биржи.'],
+['Pullback','Откат','Коррекция внутри тренда, точка входа по тренду.'],
+['Pump and dump','Разгон и слив','Манипулятивный разгон цены с последующей распродажей.'],
+['Range','Диапазон','Боковое движение между двумя границами.'],
+['Rally','Ралли','Продолжительное быстрое движение вверх.'],
+['Resistance','Сопротивление','Уровень, где продавцы останавливают рост.'],
+['Retest','Ретест','Возврат к пробитому уровню и отбой от него.'],
+['Risk/Reward','Риск к прибыли','Отношение потенциального убытка к потенциальной прибыли.'],
+['R-multiple','R-мультипликатор','Результат в единицах начального риска.'],
+['RSI','Индекс относительной силы','Осциллятор импульса со шкалой 0–100.'],
+['Scalping','Скальпинг','Множество очень коротких сделок.'],
+['Sentiment','Настроение рынка','Общий психологический настрой участников.'],
+['Short','Шорт','Позиция в расчёте на падение.'],
+['Short squeeze','Вынос шортов','Резкий рост из-за принудительного закрытия шортов.'],
+['Slippage','Проскальзывание','Отклонение фактической цены исполнения от ожидаемой.'],
+['SMA','Простая средняя','Среднее арифметическое цен закрытия.'],
+['Spread','Спред','Разница между ask и bid.'],
+['Stop hunt','Охота за стопами','Движение цены к скоплению стопов ради ликвидности.'],
+['Stop loss','Стоп-лосс','Ордер, ограничивающий убыток.'],
+['Supply zone','Зона предложения','Область, откуда цена ушла резким падением.'],
+['Support','Поддержка','Уровень, где покупатели останавливают падение.'],
+['Swap','Своп','Плата за перенос позиции через ночь.'],
+['Swing high / low','Свинг-экстремум','Локальный максимум или минимум структуры.'],
+['Take profit','Тейк-профит','Ордер на фиксацию прибыли.'],
+['Tick','Тик','Минимальное изменение цены на бирже.'],
+['Ticker','Тикер','Буквенный код инструмента.'],
+['Timeframe','Таймфрейм','Период одной свечи.'],
+['Trailing stop','Трейлинг-стоп','Стоп, следующий за ценой на фиксированной дистанции.'],
+['Trend','Тренд','Устойчивое направленное движение рынка.'],
+['Trendline','Трендовая линия','Линия по последовательным экстремумам.'],
+['Volatility','Волатильность','Мера размаха ценовых колебаний.'],
+['Volume','Объём','Количество наторгованного за период.'],
+['Volume profile','Профиль объёма','Распределение объёма по ценовым уровням.'],
+['VWAP','Средневзвешенная по объёму цена','Внутридневной институциональный ориентир.'],
+['Whipsaw','Пила','Серия ложных сигналов в боковике.'],
+['Win rate','Доля прибыльных','Процент сделок, закрытых в плюс.'],
+['Yield','Доходность','Доход в процентах; для облигаций — ключевой рыночный ориентир.']
+]}
+]});
+
+/* ============ СБОРКА СТРАНИЦЫ ============ */
+(function(){
+  var content=document.getElementById('content'),tocl=document.getElementById('tocl'),html='',toc='';
+  SECTIONS.forEach(function(s){
+    html+='<section class="sec" id="'+s.id+'"><div class="sec-h"><div class="sec-n">'+s.n+'</div><div><h2>'+s.ttl+'</h2><p>'+s.sub+'</p></div></div>';
+    html+=s.b.map(renderBlock).join('');
+    html+='</section>';
+    toc+='<a href="#'+s.id+'" data-id="'+s.id+'"><i>'+s.n+'</i><span>'+s.ttl+'</span></a>';
+  });
+  content.innerHTML=html;
+  tocl.innerHTML=toc;
+
+  /* факты в шапке */
+  var nTerms=0,nStrat=0,nCharts=0;
+  SECTIONS.forEach(function(s){s.b.forEach(function(b){
+    if(b.t==='terms')nTerms+=b.v.length;
+    if(b.t==='gloss')nTerms+=b.v.length;
+    if(b.t==='strat')nStrat+=b.v.length;
+    if(b.t==='chart')nCharts++;
+    if(b.t==='strat')b.v.forEach(function(x){if(x.chart)nCharts++;});
+  });});
+  document.getElementById('facts').innerHTML=
+    '<span class="fact"><b>'+nTerms+'</b> терминов EN → RU</span>'+
+    '<span class="fact"><b>'+nStrat+'</b> стратегий пошагово</span>'+
+    '<span class="fact"><b>'+nCharts+'</b> схем и графиков</span>'+
+    '<span class="fact">свечи · паттерны · индикаторы</span>'+
+    '<span class="fact">риск-менеджмент и психология</span>';
+
+  /* алфавит глоссария */
+  var abc=document.getElementById('abc');
+  if(abc){
+    var letters=[];
+    document.querySelectorAll('.gl .g').forEach(function(g){var a=g.dataset.a;if(letters.indexOf(a)<0)letters.push(a);});
+    letters.sort();
+    abc.innerHTML='<button class="on" data-l="*">A-Z</button>'+letters.map(function(l){return '<button data-l="'+l+'">'+l+'</button>';}).join('');
+    abc.addEventListener('click',function(e){
+      var b=e.target.closest('button');if(!b)return;
+      abc.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on');
+      var l=b.dataset.l;
+      document.querySelectorAll('.gl .g').forEach(function(g){
+        g.classList.toggle('hidden',l!=='*'&&g.dataset.a!==l);
+      });
+    });
+  }
+
+  /* поиск */
+  var q=document.getElementById('q'),hits=document.getElementById('hits'),empty=document.getElementById('empty');
+  var items=Array.prototype.slice.call(document.querySelectorAll('[data-s]'));
+  var secs=Array.prototype.slice.call(document.querySelectorAll('.sec'));
+  var timer;
+  function runSearch(){
+    var v=q.value.trim().toLowerCase();
+    if(!v){
+      items.forEach(function(el){el.classList.remove('hidden');});
+      secs.forEach(function(s){s.classList.remove('hidden');
+        s.querySelectorAll('[data-keep]').forEach(function(k){k.classList.remove('hidden');});});
+      hits.textContent='';empty.style.display='none';
+      document.querySelectorAll('.toc a').forEach(function(a){a.classList.remove('hidden');});
+      return;
+    }
+    var n=0;
+    items.forEach(function(el){
+      var m=el.dataset.s.indexOf(v)>=0;
+      el.classList.toggle('hidden',!m);
+      if(m)n++;
+    });
+    secs.forEach(function(s){
+      var any=s.querySelector('[data-s]:not(.hidden)');
+      s.classList.toggle('hidden',!any);
+      s.querySelectorAll('[data-keep]').forEach(function(k){k.classList.toggle('hidden',!any);});
+      var link=document.querySelector('.toc a[data-id="'+s.id+'"]');
+      if(link)link.classList.toggle('hidden',!any);
+    });
+    hits.textContent=n?n+' совп.':'';
+    empty.style.display=n?'none':'block';
+  }
+  q.addEventListener('input',function(){clearTimeout(timer);timer=setTimeout(runSearch,110);});
+
+  /* меню на мобильных */
+  var toc2=document.getElementById('toc'),scrim=document.getElementById('scrim');
+  function closeMenu(){toc2.classList.remove('open');scrim.classList.remove('on');}
+  document.getElementById('menu').addEventListener('click',function(){
+    toc2.classList.toggle('open');scrim.classList.toggle('on');
+  });
+  scrim.addEventListener('click',closeMenu);
+  tocl.addEventListener('click',function(e){if(e.target.closest('a'))closeMenu();});
+
+  /* тема */
+  var t=document.getElementById('theme');
+  t.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    document.documentElement.setAttribute('data-theme',cur==='night'?'day':'night');
+  });
+  if(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches)
+    document.documentElement.setAttribute('data-theme','night');
+
+  /* прогресс, активный раздел, кнопка наверх */
+  var prog=document.getElementById('prog'),up=document.getElementById('up'),ticking=false;
+  function onScroll(){
+    var h=document.body.scrollHeight-window.innerHeight;
+    prog.style.width=(h>0?(window.scrollY/h*100):0)+'%';
+    up.classList.toggle('on',window.scrollY>700);
+    var cur=null;
+    secs.forEach(function(s){if(!s.classList.contains('hidden')&&s.getBoundingClientRect().top<160)cur=s.id;});
+    document.querySelectorAll('.toc a').forEach(function(a){a.classList.toggle('on',a.dataset.id===cur);});
+    ticking=false;
+  }
+  window.addEventListener('scroll',function(){
+    if(!ticking){ticking=true;window.requestAnimationFrame(onScroll);}
+  },{passive:true});
+  up.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+  onScroll();
+})();
+
+</script>
+</body>
+</html>
